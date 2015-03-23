@@ -1,0 +1,531 @@
+#+SETUPFILE: setup.org
+
+#+TITLE: DOJO sobre Elixir
+
+Guia para um DOJO de Elixir.
+
+* Começando - Familiarizando-se com o shell
+
+Para começar uma sessão do iex (Interactive Elixir Shell), faça o seguinte teste:
+
+#+BEGIN_SRC sh
+iex
+#+END_SRC
+
+Ao término da execução você deverá ver o shell esperando por comandos. Vamos começar experimentando pelo iex e logo na sequência iremos partir para a execução de scripts elixir.
+
+Tentem o seguinte código e verifiquem a saída:
+
+#+BEGIN_SRC elixir :exports both
+name = "Victor"
+IO.puts "Hello #{name}!"
+#+END_SRC
+
+** Se virando no shell
+
+Dentro de uma sessão de iex temos várias funções já implementadas. Veremos algumas a seguir.
+
+*** Autocomplete
+
+Por exemplo, temos autocomplete dos módulos do Elixir. Digitem "String." (sem as aspas) e apertem o tab.
+
+O resultado será algo como:
+
+#+BEGIN_SRC
+iex(7)> String.
+Chars                 at/2                  capitalize/1          
+chunk/2               codepoints/1          contains?/2           
+downcase/1            duplicate/2           ends_with?/2          
+first/1               graphemes/1           last/1                
+length/1              ljust/2               ljust/3               
+lstrip/1              lstrip/2              match?/2              
+next_codepoint/1      next_grapheme/1       printable?/1          
+replace/4             reverse/1             rjust/2               
+rjust/3               rstrip/1              rstrip/2              
+slice/2               slice/3               split/1               
+split/3               split_at/2            starts_with?/2        
+strip/1               strip/2               to_atom/1             
+to_char_list/1        to_existing_atom/1    to_float/1            
+to_integer/1          to_integer/2          upcase/1              
+valid?/1              valid_character?/1    
+#+END_SRC
+
+*** Documentação 
+
+Existe uma função h que nos mostra a documentação de qualquer função. Experimentem o seguinte no shell: "h Enum.filter_map" (sem as aspas!!!).
+
+O resultado será formatado! Algo como:
+#+BEGIN_SRC
+iex(8)> h Enum.filter_map
+
+                   def filter_map(collection, filter, mapper)                   
+
+Filters the collection and maps its values in one pass.
+
+Examples
+
+┃ iex> Enum.filter_map([1, 2, 3], fn(x) -> rem(x, 2) == 0 end, &(&1 * 2))
+┃ [4]
+#+END_SRC
+
+*** Histórico de comandos
+
+Ao chamar a função v (apenas digite v e enter), você poderá ver o histórico de sua sessão.
+
+*** Outras utilidades
+
+Existem milhares de outras funcionalidade que serão mais úteis ao decorrer do DOJO.
+
+
+* Tipos básicos da linguagem
+
+Elixir e Erlang compartilham suas estruturas de dados primitivas. Vejamos a seguir quais são:
+
+** Tipos numéricos: integer e float
+
+#+BEGIN_SRC elixir
+# Integers
+a = 1
+a = 50
+a = 100
+# Na base hexadecimal
+a =  0x1F
+
+# Floats
+1.0 # mesmo padrão que todas as linguagens :D 
+#+END_SRC
+
+** Constantes nomeadas: atom
+
+#+BEGIN_SRC elixir
+
+# atom é uma constante nomeada
+a = :qualquer_valor
+b = :'qualquer valor com espaço'
+c = :'Qualquer valor maiúsculo com espaço'
+d = String # os nomes de módulos são atoms abreviados. Neste caso String é equivalente ao atom :'Elixir.String'. Veremos mais sobre módulos mais para frente
+
+# true e false são apenas um açúcar sintático para atoms :true e :false
+true = :true
+:false = false
+#+END_SRC
+
+** String e lista de caracteres (exemplo e resultado)
+
+#+BEGIN_SRC elixir :exports both
+
+# Uma string é inicializada com aspas duplas
+a = "uma string"
+
+# Há também docstrings (strings que mantém a formatação em múltiplas linhas)
+b = """
+Estou testando uma docstring!
+
+Pulei linha e ainda estou dentro da docstring
+"""
+# Existe um outro tipo que é uma lista de caracteres que inicializado com aspas simples (usado mais em compatibilidade com o Erlang. Por hora é só importante saber que existe)
+c = 'abc'
+
+# Em Elixir podemos interpolar valores dentro de Strings. Para imprimirmos um tipo que não seja uma String podemos usar #{valor}.
+
+d = "#{123456}"
+
+IO.puts a
+IO.puts b
+IO.puts c
+IO.puts d
+#+END_SRC
+
+** Tipos de coleção: Listas, tuplas e mapas
+
+#+BEGIN_SRC elixir :exports both
+
+# Uma lista é um conjunto de elementos variável.
+a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Há uma sintaxe (tanto em Elixir e em Erlang) para tratar com listas
+# Para separarmos o primeiro item da lista do RESTO da lista usamos o | (pipe)
+
+[ primeiro_item | resto_da_lista ] = a
+
+# Ops... muito rápido? O que será que aconteceu? Não se preocupe com o sinal = (igual) estar estranho agora. Veremos isso a seguir.
+
+IO.puts "#{primeiro_item}"
+IO.puts "#{inspect resto_da_lista}"
+
+# Aqui usamos interpolação de String como vimos acima
+
+# Em contrapartida, tuplas são um conjunto de tamanho fixo e não possuem sintaxe especial
+b = {:ok, "isto é uma tupla taggeada"}
+
+IO.puts "#{inspect b}"
+
+# Usamos o inspect apenas ter uma representação em String do tipo. Veremos melhor adiante...
+
+# Mapas possuem uma sintaxe bem particular e muito legal de trabalhar.
+c = %{} # mapa vazio!
+d = %{"eu sou uma chave" => "eu sou um valor"}
+
+# Para atualizar um mapa podemos usar um atalho de sintaxe
+d = %{ d | "eu sou uma chave" => "valor atualizado"}
+
+# ATENÇÃO! Ele só irá atualizar uma chave que já exista! Se tentar: %{ "uma chave inexistente" => 1} irá lançar uma exceção
+
+# Também temos em Elixir um tipo chamado de Keyword list. É uma lista de tuplas chave e valor.
+e = [{:chave1, "teste"}] # -> Uma lista com uma tupla de duas posições {chave, valor}.
+
+[{:chave1, "teste"}] = [chave1: "teste"] # -> true!
+
+# Isso é mão na roda para expressar JSON por exemplo. O seguinte exemplo é:
+# Ex: {"valor": 32, "nome": "Nome completo" } é igual em estrutura a:
+f = [valor: 32, nome: "Nome completo"]
+
+# Essa sintaxe encurtada também existe para mapas:
+g = %{chave: "valor"}
+g = %{g | chave: "outro valor"}
+
+# tanto Keyword lists quanto mapas em que as chaves são atoms, podemos acessar os valores através da sintaxe:
+IO.puts "Chamando valor da lista por um atalho -> #{inspect f[:valor]}"
+IO.puts "Chamando valor do mapa por um atalho -> #{g[:chave]}"
+
+# Especialmente para mapas com chaves em atoms podemos usar um atalho melhor ainda:
+IO.puts "Chamando valor de um mapa por um atalho melhor ainda -> #{g.chave}"
+
+# O truque está em um conceito chamado Protocol do Elixir. Não veremos protocols em detalhes, mas fica a dica!
+#+END_SRC
+
+** Só tem isso?
+
+Existem outros tipos na linguagem que falaremos conforme formos avançando. Apenas para os curiosos temos ainda PIDs, structs e outros...
+
+
+* Arquivos de código fonte
+
+Agora chega de só usar o shell e vamos criar arquivos com nossos códigos. Crie uma pasta elixir-dojo e um arquivo module.exs.
+
+Façamos um teste. Escrevam no arquivo:
+
+#+BEGIN_SRC elixir :exports both
+IO.puts "Yo!" # projeto para ganhar milhões
+#+END_SRC
+
+Para executarmos nosso arquivo podemos simplesmente executar no shell:
+#+BEGIN_SRC sh
+elixir module.exs
+#+END_SRC
+
+Isso irá avaliar todo o código que criamos dentro do arquivo. Reparem que não precisamos de classes, módulos, pacotes, namespaces e etc.
+
+No entanto, vamos logo logo querer separar nosso código em unidades lógicas para ficar mais fácil reutilizar e referenciar.
+
+Para isso usamos módulos. Eles são o equivalente ao escopo de classe em linguagens como Ruby, Java e etc. Nós já referenciamos módulos antes quando queríamos imprimir algo na tela:
+
+#+BEGIN_SRC elixir :exports both
+IO.puts(String.capitalize("teste"))
+#+END_SRC
+
+Neste exemplo usamos o módulo IO e String da SDK do Elixir. Chamamos funções definidas DENTRO de cada módulo.
+
+Antes de começarmos a usar muitas funções, vamos ver como podemos criar uma função. 
+
+Apaguem tudo no arquivo module.exs e digitem o seguinte:
+
+#+BEGIN_SRC elixir :exports both
+
+  defmodule PrimeiroModulo do # tudo dentro de do ... end estará DENTRO do módulo
+    def diga_ola nome do
+      IO.puts "Olá mundo! Meu nome é #{nome}"
+    end
+  end
+
+  # Vamos chamar nosso modulo e funcao
+  PrimeiroModulo.diga_ola "Elixir"
+#+END_SRC
+
+Usamos a macro "defmodule" para criar um módulo. Não iremos falar de macros agora, mas agora pense nela como uma palavra reservada.
+
+Da mesma forma, definimos funções com "defun".
+
+
+* Linguagem funcional 
+
+Até aqui tudo parece muito com Java, Python e, principalmente Ruby. Mas não esqueçam que estamos falando de uma linguagem funcional.
+
+** Pattern Matching
+
+Vimos anteriormente que o sinal de igual se comporta um tanto quanto estranhamente... Vamos recapitular:
+
+#+BEGIN_SRC elixir :exports both
+
+# Exemplo de lista
+[ primeiro_item | resto_da_lista ] = [1,2,3,4,5]
+
+#+END_SRC
+
+Isso chama-se "pattern matching". Ao invés de pensarmos no igual como uma atribuição (a variavel passa a representar um valor), tratamos como uma expressão de igualdade.
+
+O lado esquerdo do igual precisa ser igual ao lado direito. Assim, vejamos alguns exemplos:
+
+#+BEGIN_SRC elixir
+
+a = 1 # a é uma variável sem valor, então o pattern matching atribui 1 ao valor para que a expressão seja verdadeira
+[a] = [1] # true
+b = [a] # true. b não tinha valor
+[c, d, e]  = [ a, "testando", b] # true. o padrão irá atribuir as variáveis do lado direito ao lado esquerdo para a expressão ser verdadeira
+
+#+END_SRC
+
+Por isso chamamos o sinal de '=' de operador "match". Caso o lado esquerdo não seja igual ao lado direito ele lançará uma exceção.
+
+** Pattern Matching em funções
+
+Podemos utilizar pattern matching para definir funções em Elixir. Vejam alguns exemplos:
+
+#+BEGIN_SRC elixir :exports both
+
+  defmodule Teste do
+    def diga_ola "Elixir" do
+      IO.puts "Olá Elixir!"
+    end 
+    def diga_ola "Mundo" do
+      IO.puts "Não..."
+    end
+  end
+
+  # A plataforma irá chamar a primeira definição de diga_ola
+  Teste.diga_ola "Elixir"
+  # A plataforma irá chamar a segunda definição de diga_ola
+  Teste.diga_ola "Mundo"
+
+  defmodule TesteMaisComplexo do
+    def calcula_area {:quadrado, {:lado, lado}} do
+      lado * lado
+    end
+    def calcula_area {:retangulo, {:largura, largura}, {:altura, altura}} do
+      largura * altura
+    end
+  end
+
+IO.puts "-------------"
+IO.puts "Quadrado: #{inspect TesteMaisComplexo.calcula_area {:quadrado, {:lado, 10}}}"
+IO.puts "Retangulo #{inspect TesteMaisComplexo.calcula_area {:retangulo, {:largura, 5}, {:altura, 10}}}"
+#+END_SRC
+
+Neste exemplo definimos uma função (e não duas!!!) que pode ter duas entradas diferentes: um quadrado ou um retangulo.
+
+Quando chamamos a execução o Elixir irá fazer um "pattern matching" para saber qual implementação ele deve chamar.
+
+Caso não encontre uma implementação, adivinha... exception :D. Assim é possível ter um caso genérico ao definir uma função.
+
+#+BEGIN_SRC elixir :exports both
+
+defmodule PatternMatchingCasoGenerico do
+  def eh_um_pinguim(:pinguim), do: true
+  def eh_um_pinguim(_), do: false 
+end
+
+IO.puts PatternMatchingCasoGenerico.eh_um_pinguim :pinguim
+IO.puts PatternMatchingCasoGenerico.eh_um_pinguim :ornitorrinco
+
+#+END_SRC
+
+Para fazer um "match" genérico utilizamos o underscore '_'. 
+
+#+BEGIN_QUOTE
+!!! *Atenção* !!! 
+
+Usamos uma sintaxe encurtada para definir uma função. Quando o retorno cabe emum linha só, ao invés de escrevermos:
+
+def nome() do 
+...
+end
+
+Podemos utilizar:
+
+def nome(parametros), do: ...
+
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+
+!!! *Atenção* !!!
+
+O uso de parênteses no Elixir será sempre opcional quando a plataforma conseguir detectar que não há ambiguidade.
+
+Por exemplo:
+
+def eh_um_pinguim :pinguim, do: true
+
+Irá lançar uma exceção porque a plataforma não identifica se ", do" é outro parâmetro da função. Por isso utilizamos os parênteses.
+
+#+END_QUOTE
+
+** Recursividade
+
+Muita gente lembra com horror recursividade da faculdade... Provas "maledetas" com perguntas complicadas sobre cálculos recursivos não soa nada bacana...
+
+No entanto, é uma parte fundamental do Elixir e veremos que não é nenhum bixo de sete cabeças. Prontos para o exemplo clássico?
+
+#+BEGIN_SRC elixir :exports both
+defmodule Fibonacci do
+
+  def fib(1), do: 1
+  def fib(2), do: 2
+  def fib(n) when is_integer(n) and n > 2 do
+   fib(n - 1) + fib(n - 2)
+  end 
+  def fib(_) do
+     raise ArgumentError, message: "Número inválido"
+  end
+end
+
+IO.puts Fibonacci.fib(5)
+IO.puts Fibonacci.fib(1)
+IO.puts Fibonacci.fib(2)
+IO.puts Fibonacci.fib(6)
+#+END_SRC
+
+Vamos por partes:
+
+- Usamos a notação "encurtada" para definir nossas cláusulas
+- Usamos o que chamamos de guard. Falaremos com mais detalhes a frente
+- Usamos o '_' para o caso genérico. Qualquer valor que não seja um número e esteja de 1 para cima.
+- Lançamos uma exceção :D. Veremos que isso não é uma boa prática de acordo com o OTP. Em geral os retornos são tuplas do tipo {:ok, valor} ou {:error, "Número inválido}
+- Há um truque de sintaxe aqui... repare no argumento de raise: módulo e ???? Alguém? ... É uma Keyword list. Como ela é o último parâmetro, o Elixir não exige os colchetes.
+
+Mais alguns exemplos de funções recursivas:
+
+#+BEGIN_SRC elixir :exports both
+defmodule FamosaRecursao do
+
+  # funções públicas!
+  def soma(lista) when is_list(lista), do: soma(lista, 0)
+
+  def map(lista, funcao) when is_list(lista) and is_function(funcao) do
+    map(lista, funcao, [])
+  end
+
+  # funções privadas
+  # caso básico: quando a lista é vazia temos que parar a recursão
+  defp soma([], acumulador), do: acumulador
+  # recursão foderosa...
+  defp soma [num | lista], acumulador do
+    soma lista, acumulador + num
+  end
+
+  # exatament a mesma coisa...
+  defp map([], _funcao, acumulador), do: acumulador
+  defp map([ item | lista], funcao, acumulador) do
+    map(lista, funcao, [ funcao.(item) | acumulador ])
+  end
+
+end
+
+IO.puts "#{inspect FamosaRecursao.soma [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}"
+IO.puts "#{inspect FamosaRecursao.soma Enum.to_list(1..100)}"
+
+IO.puts "#{inspect FamosaRecursao.map [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], fn numero -> numero + 1 end}"
+IO.puts "#{inspect FamosaRecursao.map Enum.to_list(1..100), fn numero -> numero + 1 end}"
+
+#+END_SRC
+
+Agora um exercício para fixar tudo o que fizemos até agora... 
+
+** Guards
+
+Vimos alguns exemplos de definições de funções que tinham "guards", mas o que será isso?
+
+A filosofia de um sistema tolerante a falhas é: "não escreverás código defensivo". Isso quer dizer: "deixa quebrar logo".
+
+Até parece que não há uma preocupação com o fluxo do sistema, mas na verdade isso apenas evidenciará erros nos nossos sistemas antes no ciclo de desenvolvimento.
+
+No entanto, podemos indicar melhor qual a intenção da função através de condições claras do que esperamos. Fazemos isso com "guards" que nada mais são do que funções especiais.
+
+Normalmente estas funções estão no escopo do Kernel e retornam true ou false. Os que mais utilizaremos são as funções is_*alguma coisa*(parametro)
+
+Exemplos:
+
+#+BEGIN_SRC elixir :exports bothho
+
+defmodule GuardTest do
+def f1(param) when is_list(param), do: IO.puts "Sou uma lista"
+def f1(param) when is_binary(param), do: IO.puts "Sou um binário"
+def f1(param) when is_map(param), do: IO.puts "Sou um mapa"
+def f1(_), do: IO.puts "Sou qualquer outra coisa"
+end
+
+GuardTest.f1 "binário"
+GuardTest.f1 %{}
+GuardTest.f1 []
+GuardTest.f1 :atom
+#+END_SRC
+
+** Exerícios
+
+Criem um módulo que contenha as seguintes funções:
+
+1. Filter: dada uma lista de elementos retornar apenas aqueles que satisfazem a função de filtro. O resultado da função será sempre true ou false e não precisa se preocupar com guards.
+
+#+BEGIN_SRC elixir
+def filter (lista_de_elementos, funcao_de_filtro) do
+## ????
+end
+#+END_SRC
+
+2. Inversão de lista: lembra como o resultado sempre vem invertido da função map? Crie uma função que inverta o resultado.
+
+#+BEGIN_SRC elixir
+def inverte(lista), do: #????
+#+END_SRC
+
+3. Fatorial :D Dado um número positivo, calcular N * (N - 1 ) * (N - 2) ... 1
+
+#+BEGIN_SRC elixir
+def fac(numero), do: #????
+#+END_SRC
+
+* Criando nosso primeiro projeto: MIX
+
+Até agora estamos executando código em arquivos soltos sem uma estrutura de projeto bem definida. De agora em diante vamos criar projetos completos.
+
+** MIX: Elixir build tool
+
+Equivalente a Maven, Gradle, NPM e um mix de outras ferramentas de Ruby e Python, MIX representa o sistema de build do Elixir. Vejamos as tasks do mix:
+
+#+BEGIN_SRC elixir
+mix                   # Run the default task (current: mix run)
+mix archive           # List all archives
+mix archive.build     # Archive this project into a .ez file
+mix archive.install   # Install an archive locally
+mix archive.uninstall # Uninstall archives
+mix clean             # Delete generated application files
+mix cmd               # Executes the given command
+mix compile           # Compile source files
+mix compile.protocols # Consolidates all protocols in all paths
+mix deps              # List dependencies and their status
+mix deps.clean        # Remove the given dependencies' files
+mix deps.compile      # Compile dependencies
+mix deps.get          # Get all out of date dependencies
+mix deps.unlock       # Unlock the given dependencies
+mix deps.update       # Update the given dependencies
+mix do                # Executes the tasks separated by comma
+mix escript.build     # Builds an escript for the project
+mix help              # Print help information for tasks
+mix hex.config        # Read or update hex config
+mix hex.docs          # Publish docs for package
+mix hex.info          # Print hex information
+mix hex.key           # Hex API key tasks
+mix hex.owner         # Hex package ownership tasks
+mix hex.publish       # Publish a new package version
+mix hex.search        # Search for package names
+mix hex.user          # Hex user tasks
+mix loadconfig        # Loads and persists the given configuration
+mix local             # List local tasks
+mix local.hex         # Install hex locally
+mix local.rebar       # Install rebar locally
+mix new               # Create a new Elixir project
+mix run               # Run the given file or expression
+mix test              # Run a project's tests
+iex -S mix            # Start IEx and run the default task
+#+END_SRC
+

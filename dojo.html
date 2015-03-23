@@ -1,0 +1,1078 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>DOJO sobre Elixir</title>
+<!-- 2015-03-23 Seg 15:53 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Victor Oliveira Nascimento &lt;victor.nascimento@concretesolutions.com.br&gt;" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="http://thomasf.github.io/solarized-css/solarized-dark.min.css" />
+<style> .title { color: #FFFFFF } blockquote { color: #FFFFFF; background: #565656; padding: 8px;} </style>
+
+<script type="text/javascript" src="http://thomasf.github.io/solarized-css/org-info.min.js">
+/**
+ *
+ * @source: http://thomasf.github.io/solarized-css/org-info.min.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in http://thomasf.github.io/solarized-css/org-info.min.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in http://thomasf.github.io/solarized-css/org-info.min.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "3");
+org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_UP", "");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "1");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">DOJO sobre Elixir</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Começando - Familiarizando-se com o shell</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Se virando no shell</a>
+<ul>
+<li><a href="#sec-1-1-1">1.1.1. Autocomplete</a></li>
+<li><a href="#sec-1-1-2">1.1.2. Documentação</a></li>
+<li><a href="#sec-1-1-3">1.1.3. Histórico de comandos</a></li>
+<li><a href="#sec-1-1-4">1.1.4. Outras utilidades</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Tipos básicos da linguagem</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Tipos numéricos: integer e float</a></li>
+<li><a href="#sec-2-2">2.2. Constantes nomeadas: atom</a></li>
+<li><a href="#sec-2-3">2.3. String e lista de caracteres (exemplo e resultado)</a></li>
+<li><a href="#sec-2-4">2.4. Tipos de coleção: Listas, tuplas e mapas</a></li>
+<li><a href="#sec-2-5">2.5. Só tem isso?</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Arquivos de código fonte</a></li>
+<li><a href="#sec-4">4. Linguagem funcional</a>
+<ul>
+<li><a href="#sec-4-1">4.1. Pattern Matching</a></li>
+<li><a href="#sec-4-2">4.2. Pattern Matching em funções</a></li>
+<li><a href="#sec-4-3">4.3. Recursividade</a></li>
+<li><a href="#sec-4-4">4.4. Guards</a></li>
+<li><a href="#sec-4-5">4.5. Exerícios</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. Criando nosso primeiro projeto: MIX</a>
+<ul>
+<li><a href="#sec-5-1">5.1. MIX: Elixir build tool</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+Guia para um DOJO de Elixir.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Começando - Familiarizando-se com o shell</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Para começar uma sessão do iex (Interactive Elixir Shell), faça o seguinte teste:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">iex
+</pre>
+</div>
+
+<p>
+Ao término da execução você deverá ver o shell esperando por comandos. Vamos começar experimentando pelo iex e logo na sequência iremos partir para a execução de scripts elixir.
+</p>
+
+<p>
+Tentem o seguinte código e verifiquem a saída:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #fcaf3e;">name</span> = <span style="color: #e9b96e;">"Victor"</span>
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Hello </span><span style="color: #fcaf3e;">#{name}</span><span style="color: #e9b96e;">!"</span>
+</pre>
+</div>
+
+<pre class="example">
+Hello Victor!
+</pre>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Se virando no shell</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Dentro de uma sessão de iex temos várias funções já implementadas. Veremos algumas a seguir.
+</p>
+</div>
+
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Autocomplete</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+Por exemplo, temos autocomplete dos módulos do Elixir. Digitem "String." (sem as aspas) e apertem o tab.
+</p>
+
+<p>
+O resultado será algo como:
+</p>
+
+<pre class="example">
+iex(7)&gt; String.
+Chars                 at/2                  capitalize/1          
+chunk/2               codepoints/1          contains?/2           
+downcase/1            duplicate/2           ends_with?/2          
+first/1               graphemes/1           last/1                
+length/1              ljust/2               ljust/3               
+lstrip/1              lstrip/2              match?/2              
+next_codepoint/1      next_grapheme/1       printable?/1          
+replace/4             reverse/1             rjust/2               
+rjust/3               rstrip/1              rstrip/2              
+slice/2               slice/3               split/1               
+split/3               split_at/2            starts_with?/2        
+strip/1               strip/2               to_atom/1             
+to_char_list/1        to_existing_atom/1    to_float/1            
+to_integer/1          to_integer/2          upcase/1              
+valid?/1              valid_character?/1
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Documentação</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+Existe uma função h que nos mostra a documentação de qualquer função. Experimentem o seguinte no shell: "h Enum.filter_map" (sem as aspas!!!).
+</p>
+
+<p>
+O resultado será formatado! Algo como:
+</p>
+<pre class="example">
+iex(8)&gt; h Enum.filter_map
+
+                   def filter_map(collection, filter, mapper)                   
+
+Filters the collection and maps its values in one pass.
+
+Examples
+
+┃ iex&gt; Enum.filter_map([1, 2, 3], fn(x) -&gt; rem(x, 2) == 0 end, &amp;(&amp;1 * 2))
+┃ [4]
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> Histórico de comandos</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+Ao chamar a função v (apenas digite v e enter), você poderá ver o histórico de sua sessão.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-4" class="outline-4">
+<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> Outras utilidades</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+Existem milhares de outras funcionalidade que serão mais úteis ao decorrer do DOJO.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Tipos básicos da linguagem</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Elixir e Erlang compartilham suas estruturas de dados primitivas. Vejamos a seguir quais são:
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Tipos numéricos: integer e float</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #73d216;"># </span><span style="color: #73d216;">Integers</span>
+<span style="color: #fcaf3e;">a</span> = 1
+<span style="color: #fcaf3e;">a</span> = 50
+<span style="color: #fcaf3e;">a</span> = 100
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Na base hexadecimal</span>
+<span style="color: #fcaf3e;">a</span> =  0x1F
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Floats</span>
+1.0 <span style="color: #73d216;"># </span><span style="color: #73d216;">mesmo padr&#227;o que todas as linguagens :D</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Constantes nomeadas: atom</h3>
+<div class="outline-text-3" id="text-2-2">
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #73d216;"># </span><span style="color: #73d216;">atom &#233; uma constante nomeada</span>
+<span style="color: #fcaf3e;">a</span> = <span style="color: #87cefa;">:qualquer_valor</span>
+<span style="color: #fcaf3e;">b</span> = :<span style="color: #e9b96e;">'qualquer valor com espa&#231;o'</span>
+<span style="color: #fcaf3e;">c</span> = :<span style="color: #e9b96e;">'Qualquer valor mai&#250;sculo com espa&#231;o'</span>
+<span style="color: #fcaf3e;">d</span> = <span style="color: #e9b2e3;">String</span> <span style="color: #73d216;"># </span><span style="color: #73d216;">os nomes de m&#243;dulos s&#227;o atoms abreviados. Neste caso String &#233; equivalente ao atom :'Elixir.String'. Veremos mais sobre m&#243;dulos mais para frente</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">true e false s&#227;o apenas um a&#231;&#250;car sint&#225;tico para atoms :true e :false</span>
+<span style="color: #fcaf3e;">true</span> = <span style="color: #87cefa;">:true</span>
+:<span style="color: #fcaf3e;">false</span> = false
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> String e lista de caracteres (exemplo e resultado)</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #73d216;"># </span><span style="color: #73d216;">Uma string &#233; inicializada com aspas duplas</span>
+<span style="color: #fcaf3e;">a</span> = <span style="color: #e9b96e;">"uma string"</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">H&#225; tamb&#233;m docstrings (strings que mant&#233;m a formata&#231;&#227;o em m&#250;ltiplas linhas)</span>
+<span style="color: #fcaf3e;">b</span> = <span style="color: #e9b96e;">"""</span>
+<span style="color: #e9b96e;">Estou testando uma docstring!</span>
+
+<span style="color: #e9b96e;">Pulei linha e ainda estou dentro da docstring</span>
+<span style="color: #e9b96e;">"""</span>
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Existe um outro tipo que &#233; uma lista de caracteres que inicializado com aspas simples (usado mais em compatibilidade com o Erlang. Por hora &#233; s&#243; importante saber que existe)</span>
+<span style="color: #fcaf3e;">c</span> = <span style="color: #e9b96e;">'abc'</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Em Elixir podemos interpolar valores dentro de Strings. Para imprimirmos um tipo que n&#227;o seja uma String podemos usar #{valor}.</span>
+
+<span style="color: #fcaf3e;">d</span> = <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{123456}</span><span style="color: #e9b96e;">"</span>
+
+<span style="color: #e9b2e3;">IO</span>.puts a
+<span style="color: #e9b2e3;">IO</span>.puts b
+<span style="color: #e9b2e3;">IO</span>.puts c
+<span style="color: #e9b2e3;">IO</span>.puts d
+</pre>
+</div>
+
+<pre class="example">
+uma string
+Estou testando uma docstring!
+
+Pulei linha e ainda estou dentro da docstring
+
+abc
+123456
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Tipos de coleção: Listas, tuplas e mapas</h3>
+<div class="outline-text-3" id="text-2-4">
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #73d216;"># </span><span style="color: #73d216;">Uma lista &#233; um conjunto de elementos vari&#225;vel.</span>
+<span style="color: #fcaf3e;">a</span> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">H&#225; uma sintaxe (tanto em Elixir e em Erlang) para tratar com listas</span>
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Para separarmos o primeiro item da lista do RESTO da lista usamos o | (pipe)</span>
+
+[ primeiro_item | resto_da_lista ] = a
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Ops... muito r&#225;pido? O que ser&#225; que aconteceu? N&#227;o se preocupe com o sinal = (igual) estar estranho agora. Veremos isso a seguir.</span>
+
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{primeiro_item}</span><span style="color: #e9b96e;">"</span>
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{inspect resto_da_lista}</span><span style="color: #e9b96e;">"</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Aqui usamos interpola&#231;&#227;o de String como vimos acima</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Em contrapartida, tuplas s&#227;o um conjunto de tamanho fixo e n&#227;o possuem sintaxe especial</span>
+<span style="color: #fcaf3e;">b</span> = {<span style="color: #87cefa;">:ok</span>, <span style="color: #e9b96e;">"isto &#233; uma tupla taggeada"</span>}
+
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{inspect b}</span><span style="color: #e9b96e;">"</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Usamos o inspect apenas ter uma representa&#231;&#227;o em String do tipo. Veremos melhor adiante...</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Mapas possuem uma sintaxe bem particular e muito legal de trabalhar.</span>
+<span style="color: #fcaf3e;">c</span> = %{} <span style="color: #73d216;"># </span><span style="color: #73d216;">mapa vazio!</span>
+<span style="color: #fcaf3e;">d</span> = %{<span style="color: #e9b96e;">"eu sou uma chave"</span> =&gt; <span style="color: #e9b96e;">"eu sou um valor"</span>}
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Para atualizar um mapa podemos usar um atalho de sintaxe</span>
+<span style="color: #fcaf3e;">d</span> = %{ d | <span style="color: #e9b96e;">"eu sou uma chave"</span> =&gt; <span style="color: #e9b96e;">"valor atualizado"</span>}
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">ATEN&#199;&#195;O! Ele s&#243; ir&#225; atualizar uma chave que j&#225; exista! Se tentar: %{ "uma chave inexistente" =&gt; 1} ir&#225; lan&#231;ar uma exce&#231;&#227;o</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Tamb&#233;m temos em Elixir um tipo chamado de Keyword list. &#201; uma lista de tuplas chave e valor.</span>
+<span style="color: #fcaf3e;">e</span> = [{<span style="color: #87cefa;">:chave</span>1, <span style="color: #e9b96e;">"teste"</span>}] <span style="color: #73d216;"># </span><span style="color: #73d216;">-&gt; Uma lista com uma tupla de duas posi&#231;&#245;es {chave, valor}.</span>
+
+[{<span style="color: #87cefa;">:chave</span>1, <span style="color: #e9b96e;">"teste"</span>}] = [<span style="color: #87cefa;">chave1:</span> <span style="color: #e9b96e;">"teste"</span>] <span style="color: #73d216;"># </span><span style="color: #73d216;">-&gt; true!</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Isso &#233; m&#227;o na roda para expressar JSON por exemplo. O seguinte exemplo &#233;:</span>
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Ex: {"valor": 32, "nome": "Nome completo" } &#233; igual em estrutura a:</span>
+<span style="color: #fcaf3e;">f</span> = [<span style="color: #87cefa;">valor:</span> 32, <span style="color: #87cefa;">nome:</span> <span style="color: #e9b96e;">"Nome completo"</span>]
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Essa sintaxe encurtada tamb&#233;m existe para mapas:</span>
+<span style="color: #fcaf3e;">g</span> = %{<span style="color: #87cefa;">chave:</span> <span style="color: #e9b96e;">"valor"</span>}
+<span style="color: #fcaf3e;">g</span> = %{g | <span style="color: #87cefa;">chave:</span> <span style="color: #e9b96e;">"outro valor"</span>}
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">tanto Keyword lists quanto mapas em que as chaves s&#227;o atoms, podemos acessar os valores atrav&#233;s da sintaxe:</span>
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Chamando valor da lista por um atalho -&gt; </span><span style="color: #fcaf3e;">#{inspect f[:valor]}</span><span style="color: #e9b96e;">"</span>
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Chamando valor do mapa por um atalho -&gt; </span><span style="color: #fcaf3e;">#{g[:chave]}</span><span style="color: #e9b96e;">"</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Especialmente para mapas com chaves em atoms podemos usar um atalho melhor ainda:</span>
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Chamando valor de um mapa por um atalho melhor ainda -&gt; </span><span style="color: #fcaf3e;">#{g.chave}</span><span style="color: #e9b96e;">"</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">O truque est&#225; em um conceito chamado Protocol do Elixir. N&#227;o veremos protocols em detalhes, mas fica a dica!</span>
+</pre>
+</div>
+
+<pre class="example">
+1
+[2, 3, 4, 5, 6, 7, 8, 9, 10]
+{:ok, "isto é uma tupla taggeada"}
+Chamando valor da lista por um atalho -&gt; 32
+Chamando valor do mapa por um atalho -&gt; outro valor
+Chamando valor de um mapa por um atalho melhor ainda -&gt; outro valor
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Só tem isso?</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Existem outros tipos na linguagem que falaremos conforme formos avançando. Apenas para os curiosos temos ainda PIDs, structs e outros&#x2026;
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Arquivos de código fonte</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Agora chega de só usar o shell e vamos criar arquivos com nossos códigos. Crie uma pasta elixir-dojo e um arquivo module.exs.
+</p>
+
+<p>
+Façamos um teste. Escrevam no arquivo:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Yo!"</span> <span style="color: #73d216;"># </span><span style="color: #73d216;">projeto para ganhar milh&#245;es</span>
+</pre>
+</div>
+
+<pre class="example">
+Yo!
+</pre>
+
+<p>
+Para executarmos nosso arquivo podemos simplesmente executar no shell:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">elixir module.exs
+</pre>
+</div>
+
+<p>
+Isso irá avaliar todo o código que criamos dentro do arquivo. Reparem que não precisamos de classes, módulos, pacotes, namespaces e etc.
+</p>
+
+<p>
+No entanto, vamos logo logo querer separar nosso código em unidades lógicas para ficar mais fácil reutilizar e referenciar.
+</p>
+
+<p>
+Para isso usamos módulos. Eles são o equivalente ao escopo de classe em linguagens como Ruby, Java e etc. Nós já referenciamos módulos antes quando queríamos imprimir algo na tela:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #e9b2e3;">IO</span>.puts(<span style="color: #e9b2e3;">String</span>.capitalize(<span style="color: #e9b96e;">"teste"</span>))
+</pre>
+</div>
+
+<pre class="example">
+Teste
+</pre>
+
+<p>
+Neste exemplo usamos o módulo IO e String da SDK do Elixir. Chamamos funções definidas DENTRO de cada módulo.
+</p>
+
+<p>
+Antes de começarmos a usar muitas funções, vamos ver como podemos criar uma função. 
+</p>
+
+<p>
+Apaguem tudo no arquivo module.exs e digitem o seguinte:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">PrimeiroModulo</span> <span style="color: #b4fa70;">do</span> <span style="color: #73d216;"># </span><span style="color: #73d216;">tudo dentro de do ... end estar&#225; DENTRO do m&#243;dulo</span>
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">diga_ola</span> nome <span style="color: #b4fa70;">do</span>
+    <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Ol&#225; mundo! Meu nome &#233; </span><span style="color: #fcaf3e;">#{nome}</span><span style="color: #e9b96e;">"</span>
+  <span style="color: #b4fa70;">end</span>
+<span style="color: #b4fa70;">end</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">Vamos chamar nosso modulo e funcao</span>
+PrimeiroModulo.diga_ola <span style="color: #e9b96e;">"Elixir"</span>
+</pre>
+</div>
+
+<pre class="example">
+Olá mundo! Meu nome é Elixir
+</pre>
+
+<p>
+Usamos a macro "defmodule" para criar um módulo. Não iremos falar de macros agora, mas agora pense nela como uma palavra reservada.
+</p>
+
+<p>
+Da mesma forma, definimos funções com "defun".
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Linguagem funcional</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Até aqui tudo parece muito com Java, Python e, principalmente Ruby. Mas não esqueçam que estamos falando de uma linguagem funcional.
+</p>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Pattern Matching</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Vimos anteriormente que o sinal de igual se comporta um tanto quanto estranhamente&#x2026; Vamos recapitular:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #73d216;"># </span><span style="color: #73d216;">Exemplo de lista</span>
+[ primeiro_item | resto_da_lista ] = [1,2,3,4,5]
+</pre>
+</div>
+
+<p>
+Isso chama-se "pattern matching". Ao invés de pensarmos no igual como uma atribuição (a variavel passa a representar um valor), tratamos como uma expressão de igualdade.
+</p>
+
+<p>
+O lado esquerdo do igual precisa ser igual ao lado direito. Assim, vejamos alguns exemplos:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #fcaf3e;">a</span> = 1 <span style="color: #73d216;"># </span><span style="color: #73d216;">a &#233; uma vari&#225;vel sem valor, ent&#227;o o pattern matching atribui 1 ao valor para que a express&#227;o seja verdadeira</span>
+[a] = [1] <span style="color: #73d216;"># </span><span style="color: #73d216;">true</span>
+<span style="color: #fcaf3e;">b</span> = [a] <span style="color: #73d216;"># </span><span style="color: #73d216;">true. b n&#227;o tinha valor</span>
+[c, d, e]  = [ a, <span style="color: #e9b96e;">"testando"</span>, b] <span style="color: #73d216;"># </span><span style="color: #73d216;">true. o padr&#227;o ir&#225; atribuir as vari&#225;veis do lado direito ao lado esquerdo para a express&#227;o ser verdadeira</span>
+</pre>
+</div>
+
+<p>
+Por isso chamamos o sinal de '=' de operador "match". Caso o lado esquerdo não seja igual ao lado direito ele lançará uma exceção.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Pattern Matching em funções</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Podemos utilizar pattern matching para definir funções em Elixir. Vejam alguns exemplos:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir">  <span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">Teste</span> <span style="color: #b4fa70;">do</span>
+    <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">diga_ola</span> <span style="color: #e9b96e;">"Elixir"</span> <span style="color: #b4fa70;">do</span>
+      <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Ol&#225; Elixir!"</span>
+    <span style="color: #b4fa70;">end</span> 
+    <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">diga_ola</span> <span style="color: #e9b96e;">"Mundo"</span> <span style="color: #b4fa70;">do</span>
+      <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"N&#227;o..."</span>
+    <span style="color: #b4fa70;">end</span>
+  <span style="color: #b4fa70;">end</span>
+
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">A plataforma ir&#225; chamar a primeira defini&#231;&#227;o de diga_ola</span>
+  Teste.diga_ola <span style="color: #e9b96e;">"Elixir"</span>
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">A plataforma ir&#225; chamar a segunda defini&#231;&#227;o de diga_ola</span>
+  Teste.diga_ola <span style="color: #e9b96e;">"Mundo"</span>
+
+  <span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">TesteMaisComplexo</span> <span style="color: #b4fa70;">do</span>
+    <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">calcula_area</span> {<span style="color: #87cefa;">:quadrado</span>, {<span style="color: #87cefa;">:lado</span>, lado}} <span style="color: #b4fa70;">do</span>
+      lado * lado
+    <span style="color: #b4fa70;">end</span>
+    <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">calcula_area</span> {<span style="color: #87cefa;">:retangulo</span>, {<span style="color: #87cefa;">:largura</span>, largura}, {<span style="color: #87cefa;">:altura</span>, altura}} <span style="color: #b4fa70;">do</span>
+      largura * altura
+    <span style="color: #b4fa70;">end</span>
+  <span style="color: #b4fa70;">end</span>
+
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"-------------"</span>
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Quadrado: </span><span style="color: #fcaf3e;">#{inspect TesteMaisComplexo.calcula_area {:quadrado, {:lado, 10}</span><span style="color: #e9b96e;">}}"</span>
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Retangulo </span><span style="color: #fcaf3e;">#{inspect TesteMaisComplexo.calcula_area {:retangulo, {:largura, 5}</span><span style="color: #e9b96e;">, {:altura, 10}}}"</span>
+</pre>
+</div>
+
+<pre class="example">
+Olá Elixir!
+Não...
+-------------
+Quadrado: 100
+Retangulo 50
+</pre>
+
+<p>
+Neste exemplo definimos uma função (e não duas!!!) que pode ter duas entradas diferentes: um quadrado ou um retangulo.
+</p>
+
+<p>
+Quando chamamos a execução o Elixir irá fazer um "pattern matching" para saber qual implementação ele deve chamar.
+</p>
+
+<p>
+Caso não encontre uma implementação, adivinha&#x2026; exception :D. Assim é possível ter um caso genérico ao definir uma função.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">PatternMatchingCasoGenerico</span> <span style="color: #b4fa70;">do</span>
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">eh_um_pinguim</span>(<span style="color: #87cefa;">:pinguim</span>), <span style="color: #87cefa;">do:</span> true
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">eh_um_pinguim</span>(<span style="color: #e9b2e3;">_</span>), <span style="color: #87cefa;">do:</span> false 
+<span style="color: #b4fa70;">end</span>
+
+<span style="color: #e9b2e3;">IO</span>.puts PatternMatchingCasoGenerico.eh_um_pinguim <span style="color: #87cefa;">:pinguim</span>
+<span style="color: #e9b2e3;">IO</span>.puts PatternMatchingCasoGenerico.eh_um_pinguim <span style="color: #87cefa;">:ornitorrinco</span>
+</pre>
+</div>
+
+<pre class="example">
+true
+false
+</pre>
+
+<p>
+Para fazer um "match" genérico utilizamos o underscore '_'. 
+</p>
+
+<blockquote>
+<p>
+!!! <b>Atenção</b> !!! 
+</p>
+
+<p>
+Usamos uma sintaxe encurtada para definir uma função. Quando o retorno cabe emum linha só, ao invés de escrevermos:
+</p>
+
+<p>
+def nome() do 
+&#x2026;
+end
+</p>
+
+<p>
+Podemos utilizar:
+</p>
+
+<p>
+def nome(parametros), do: &#x2026;
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+
+</p>
+
+<p>
+!!! <b>Atenção</b> !!!
+</p>
+
+<p>
+O uso de parênteses no Elixir será sempre opcional quando a plataforma conseguir detectar que não há ambiguidade.
+</p>
+
+<p>
+Por exemplo:
+</p>
+
+<p>
+def eh_um_pinguim :pinguim, do: true
+</p>
+
+<p>
+Irá lançar uma exceção porque a plataforma não identifica se ", do" é outro parâmetro da função. Por isso utilizamos os parênteses.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Recursividade</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Muita gente lembra com horror recursividade da faculdade&#x2026; Provas "maledetas" com perguntas complicadas sobre cálculos recursivos não soa nada bacana&#x2026;
+</p>
+
+<p>
+No entanto, é uma parte fundamental do Elixir e veremos que não é nenhum bixo de sete cabeças. Prontos para o exemplo clássico?
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">Fibonacci</span> <span style="color: #b4fa70;">do</span>
+
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">fib</span>(1), <span style="color: #87cefa;">do:</span> 1
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">fib</span>(2), <span style="color: #87cefa;">do:</span> 2
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">fib</span>(n) <span style="color: #b4fa70;">when</span> is_integer(n) <span style="color: #b4fa70;">and</span> n &gt; 2 <span style="color: #b4fa70;">do</span>
+   fib(n - 1) + fib(n - 2)
+  <span style="color: #b4fa70;">end</span> 
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">fib</span>(<span style="color: #e9b2e3;">_</span>) <span style="color: #b4fa70;">do</span>
+     <span style="color: #b4fa70;">raise</span> ArgumentError, <span style="color: #87cefa;">message:</span> <span style="color: #e9b96e;">"N&#250;mero inv&#225;lido"</span>
+  <span style="color: #b4fa70;">end</span>
+<span style="color: #b4fa70;">end</span>
+
+<span style="color: #e9b2e3;">IO</span>.puts Fibonacci.fib(5)
+<span style="color: #e9b2e3;">IO</span>.puts Fibonacci.fib(1)
+<span style="color: #e9b2e3;">IO</span>.puts Fibonacci.fib(2)
+<span style="color: #e9b2e3;">IO</span>.puts Fibonacci.fib(6)
+</pre>
+</div>
+
+<pre class="example">
+8
+1
+2
+13
+</pre>
+
+<p>
+Vamos por partes:
+</p>
+
+<ul class="org-ul">
+<li>Usamos a notação "encurtada" para definir nossas cláusulas
+</li>
+<li>Usamos o que chamamos de guard. Falaremos com mais detalhes a frente
+</li>
+<li>Usamos o '_' para o caso genérico. Qualquer valor que não seja um número e esteja de 1 para cima.
+</li>
+<li>Lançamos uma exceção :D. Veremos que isso não é uma boa prática de acordo com o OTP. Em geral os retornos são tuplas do tipo {:ok, valor} ou {:error, "Número inválido}
+</li>
+<li>Há um truque de sintaxe aqui&#x2026; repare no argumento de raise: módulo e ???? Alguém? &#x2026; É uma Keyword list. Como ela é o último parâmetro, o Elixir não exige os colchetes.
+</li>
+</ul>
+
+<p>
+Mais alguns exemplos de funções recursivas:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">FamosaRecursao</span> <span style="color: #b4fa70;">do</span>
+
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">fun&#231;&#245;es p&#250;blicas!</span>
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">soma</span>(lista) <span style="color: #b4fa70;">when</span> is_list(lista), <span style="color: #87cefa;">do:</span> soma(lista, 0)
+
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">map</span>(lista, funcao) <span style="color: #b4fa70;">when</span> is_list(lista) <span style="color: #b4fa70;">and</span> is_function(funcao) <span style="color: #b4fa70;">do</span>
+    map(lista, funcao, [])
+  <span style="color: #b4fa70;">end</span>
+
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">fun&#231;&#245;es privadas</span>
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">caso b&#225;sico: quando a lista &#233; vazia temos que parar a recurs&#227;o</span>
+  <span style="color: #b4fa70;">defp</span> <span style="color: #fce94f;">soma</span>([], acumulador), <span style="color: #87cefa;">do:</span> acumulador
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">recurs&#227;o foderosa...</span>
+  <span style="color: #b4fa70;">defp</span> <span style="color: #fce94f;">soma</span> [num | lista], acumulador <span style="color: #b4fa70;">do</span>
+    soma lista, acumulador + num
+  <span style="color: #b4fa70;">end</span>
+
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">exatament a mesma coisa...</span>
+  <span style="color: #b4fa70;">defp</span> <span style="color: #fce94f;">map</span>([], _funcao, acumulador), <span style="color: #87cefa;">do:</span> acumulador
+  <span style="color: #b4fa70;">defp</span> <span style="color: #fce94f;">map</span>([ item | lista], funcao, acumulador) <span style="color: #b4fa70;">do</span>
+    map(lista, funcao, [ funcao.(item) | acumulador ])
+  <span style="color: #b4fa70;">end</span>
+
+<span style="color: #b4fa70;">end</span>
+
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{inspect FamosaRecursao.soma [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}</span><span style="color: #e9b96e;">"</span>
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{inspect FamosaRecursao.soma Enum.to_list(1..100)}</span><span style="color: #e9b96e;">"</span>
+
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{inspect FamosaRecursao.map [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], fn numero -&gt; numero + 1 end}</span><span style="color: #e9b96e;">"</span>
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{inspect FamosaRecursao.map Enum.to_list(1..100), fn numero -&gt; numero + 1 end}</span><span style="color: #e9b96e;">"</span>
+</pre>
+</div>
+
+<pre class="example">
+55
+5050
+[11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+[101, 100, 99, 98, 97, 96, 95, 94, 93, 92, 91, 90, 89, 88, 87, 86, 85, 84, 83, 82, 81, 80, 79, 78, 77, 76, 75, 74, 73, 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, ...]
+</pre>
+
+<p>
+Agora um exercício para fixar tudo o que fizemos até agora&#x2026; 
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Guards</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Vimos alguns exemplos de definições de funções que tinham "guards", mas o que será isso?
+</p>
+
+<p>
+A filosofia de um sistema tolerante a falhas é: "não escreverás código defensivo". Isso quer dizer: "deixa quebrar logo".
+</p>
+
+<p>
+Até parece que não há uma preocupação com o fluxo do sistema, mas na verdade isso apenas evidenciará erros nos nossos sistemas antes no ciclo de desenvolvimento.
+</p>
+
+<p>
+No entanto, podemos indicar melhor qual a intenção da função através de condições claras do que esperamos. Fazemos isso com "guards" que nada mais são do que funções especiais.
+</p>
+
+<p>
+Normalmente estas funções estão no escopo do Kernel e retornam true ou false. Os que mais utilizaremos são as funções is_*alguma coisa*(parametro)
+</p>
+
+<p>
+Exemplos:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">GuardTest</span> <span style="color: #b4fa70;">do</span>
+<span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">f1</span>(param) <span style="color: #b4fa70;">when</span> is_list(param), <span style="color: #87cefa;">do:</span> <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Sou uma lista"</span>
+<span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">f1</span>(param) <span style="color: #b4fa70;">when</span> is_binary(param), <span style="color: #87cefa;">do:</span> <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Sou um bin&#225;rio"</span>
+<span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">f1</span>(param) <span style="color: #b4fa70;">when</span> is_map(param), <span style="color: #87cefa;">do:</span> <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Sou um mapa"</span>
+<span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">f1</span>(<span style="color: #e9b2e3;">_</span>), <span style="color: #87cefa;">do:</span> <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Sou qualquer outra coisa"</span>
+<span style="color: #b4fa70;">end</span>
+
+GuardTest.f1 <span style="color: #e9b96e;">"bin&#225;rio"</span>
+GuardTest.f1 %{}
+GuardTest.f1 []
+GuardTest.f1 <span style="color: #87cefa;">:atom</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Exerícios</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+Criem um módulo que contenha as seguintes funções:
+</p>
+
+<ol class="org-ol">
+<li>Filter: dada uma lista de elementos retornar apenas aqueles que satisfazem a função de filtro. O resultado da função será sempre true ou false e não precisa se preocupar com guards.
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">filter</span> (lista_de_elementos, funcao_de_filtro) <span style="color: #b4fa70;">do</span>
+<span style="color: #73d216;">## </span><span style="color: #73d216;">????</span>
+<span style="color: #b4fa70;">end</span>
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Inversão de lista: lembra como o resultado sempre vem invertido da função map? Crie uma função que inverta o resultado.
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">inverte</span>(lista), <span style="color: #87cefa;">do:</span> <span style="color: #73d216;">#</span><span style="color: #73d216;">????</span>
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Fatorial :D Dado um número positivo, calcular N * (N - 1 ) * (N - 2) &#x2026; 1
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">fac</span>(numero), <span style="color: #87cefa;">do:</span> <span style="color: #73d216;">#</span><span style="color: #73d216;">????</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Criando nosso primeiro projeto: MIX</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Até agora estamos executando código em arquivos soltos sem uma estrutura de projeto bem definida. De agora em diante vamos criar projetos completos.
+</p>
+</div>
+
+<div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> MIX: Elixir build tool</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Equivalente a Maven, Gradle, NPM e um mix de outras ferramentas de Ruby e Python, MIX representa o sistema de build do Elixir. Vejamos as tasks do mix:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir">mix                   <span style="color: #73d216;"># </span><span style="color: #73d216;">Run the default task (current: mix run)</span>
+mix archive           <span style="color: #73d216;"># </span><span style="color: #73d216;">List all archives</span>
+mix archive.build     <span style="color: #73d216;"># </span><span style="color: #73d216;">Archive this project into a .ez file</span>
+mix archive.install   <span style="color: #73d216;"># </span><span style="color: #73d216;">Install an archive locally</span>
+mix archive.uninstall <span style="color: #73d216;"># </span><span style="color: #73d216;">Uninstall archives</span>
+mix clean             <span style="color: #73d216;"># </span><span style="color: #73d216;">Delete generated application files</span>
+mix cmd               <span style="color: #73d216;"># </span><span style="color: #73d216;">Executes the given command</span>
+mix compile           <span style="color: #73d216;"># </span><span style="color: #73d216;">Compile source files</span>
+mix compile.protocols <span style="color: #73d216;"># </span><span style="color: #73d216;">Consolidates all protocols in all paths</span>
+mix deps              <span style="color: #73d216;"># </span><span style="color: #73d216;">List dependencies and their status</span>
+mix deps.clean        <span style="color: #73d216;"># </span><span style="color: #73d216;">Remove the given dependencies' files</span>
+mix deps.compile      <span style="color: #73d216;"># </span><span style="color: #73d216;">Compile dependencies</span>
+mix deps.get          <span style="color: #73d216;"># </span><span style="color: #73d216;">Get all out of date dependencies</span>
+mix deps.unlock       <span style="color: #73d216;"># </span><span style="color: #73d216;">Unlock the given dependencies</span>
+mix deps.update       <span style="color: #73d216;"># </span><span style="color: #73d216;">Update the given dependencies</span>
+mix <span style="color: #b4fa70;">do</span>                <span style="color: #73d216;"># </span><span style="color: #73d216;">Executes the tasks separated by comma</span>
+mix escript.build     <span style="color: #73d216;"># </span><span style="color: #73d216;">Builds an escript for the project</span>
+mix help              <span style="color: #73d216;"># </span><span style="color: #73d216;">Print help information for tasks</span>
+mix hex.config        <span style="color: #73d216;"># </span><span style="color: #73d216;">Read or update hex config</span>
+mix hex.docs          <span style="color: #73d216;"># </span><span style="color: #73d216;">Publish docs for package</span>
+mix hex.info          <span style="color: #73d216;"># </span><span style="color: #73d216;">Print hex information</span>
+mix hex.key           <span style="color: #73d216;"># </span><span style="color: #73d216;">Hex API key tasks</span>
+mix hex.owner         <span style="color: #73d216;"># </span><span style="color: #73d216;">Hex package ownership tasks</span>
+mix hex.publish       <span style="color: #73d216;"># </span><span style="color: #73d216;">Publish a new package version</span>
+mix hex.search        <span style="color: #73d216;"># </span><span style="color: #73d216;">Search for package names</span>
+mix hex.user          <span style="color: #73d216;"># </span><span style="color: #73d216;">Hex user tasks</span>
+mix loadconfig        <span style="color: #73d216;"># </span><span style="color: #73d216;">Loads and persists the given configuration</span>
+mix local             <span style="color: #73d216;"># </span><span style="color: #73d216;">List local tasks</span>
+mix local.hex         <span style="color: #73d216;"># </span><span style="color: #73d216;">Install hex locally</span>
+mix local.rebar       <span style="color: #73d216;"># </span><span style="color: #73d216;">Install rebar locally</span>
+mix new               <span style="color: #73d216;"># </span><span style="color: #73d216;">Create a new Elixir project</span>
+mix run               <span style="color: #73d216;"># </span><span style="color: #73d216;">Run the given file or expression</span>
+mix test              <span style="color: #73d216;"># </span><span style="color: #73d216;">Run a project's tests</span>
+iex -S mix            <span style="color: #73d216;"># </span><span style="color: #73d216;">Start IEx and run the default task</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Victor Oliveira Nascimento &lt;victor.nascimento@concretesolutions.com.br&gt;</p>
+<p class="date">Created: 2015-03-23 Seg 15:53</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
