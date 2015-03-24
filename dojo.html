@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>DOJO sobre Elixir</title>
-<!-- 2015-03-23 Seg 23:01 -->
+<!-- 2015-03-24 Ter 16:49 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Victor Oliveira Nascimento &lt;victor.nascimento@concretesolutions.com.br&gt;" />
@@ -1473,7 +1473,7 @@ Vamos testar o que aprendemos até aqui:
 </p>
 
 <ol class="org-ol">
-<li>Cria uma função no módulo principal que faça o "pattern matching" com status 200 e 404. Abra o shell e teste com repositórios conhecidos e com inexistentes para ver o resultado.
+<li>Crie uma função no módulo principal que faça o "pattern matching" com status 200 e 404. Abra o shell e teste com repositórios conhecidos e com inexistentes para ver o resultado.
 </li>
 </ol>
 </div>
@@ -1487,7 +1487,7 @@ Vimos que o resultado da API é um mapa meio estranho. Ao invés de retornar: %{
 </p>
 
 <p>
-Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhes agora, mas ele é apenas um mapa especial do Elixir. Pode-se fazer um pattern matching normalmente nele:
+Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhes agora, mas ele é apenas um mapa especial do Elixir. Pode-se fazer um pattern matching normalmente nele quase como se fosse um mapa. Para criar um struct utilizamos a macro "defstruct":
 </p>
 
 <div class="org-src-container">
@@ -1495,15 +1495,24 @@ Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhe
 <pre class="src src-elixir"><span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">Usuario</span> <span style="color: #b4fa70;">do</span>
   <span style="color: #b4fa70;">defstruct</span> <span style="color: #87cefa;">nome:</span> <span style="color: #e9b96e;">"nome default"</span>
 <span style="color: #b4fa70;">end</span>
+
+<span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">Test</span> <span style="color: #b4fa70;">do</span>
+  <span style="color: #fcaf3e;">user</span> = %Usuario{}
+  <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{user.nome}</span><span style="color: #e9b96e;">"</span>
+<span style="color: #b4fa70;">end</span>
 </pre>
 </div>
+
+<pre class="example">
+nome default
+</pre>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Victor Oliveira Nascimento &lt;victor.nascimento@concretesolutions.com.br&gt;</p>
-<p class="date">Created: 2015-03-23 Seg 23:01</p>
+<p class="date">Created: 2015-03-24 Ter 16:49</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

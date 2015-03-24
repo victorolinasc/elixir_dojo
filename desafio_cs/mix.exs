@@ -13,6 +13,7 @@ defmodule DesafioCs.Mixfile do
   end
 
   defp deps do
-    [{:httpoison, "~> 0.6"}]
+    [{:httpoison, "~> 0.6"},
+		{:poison, "~> 1.3"}]
   end
 end

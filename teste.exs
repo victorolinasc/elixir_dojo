@@ -3,6 +3,7 @@ defmodule Usuario do
 end
 
 defmodule Test do
-  user = %Usuario{}
-  IO.puts "#{user.nome}"
+	user = %Usuario{}
+	IO.puts "#{user.nome}"
 end
+

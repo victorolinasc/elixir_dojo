@@ -778,21 +778,60 @@ HTTPoison.get "https://api.bitbucket.org/2.0/repositories/suporte_concrete/desaf
 Reparem que logo após digitar o nome do módulo você ganha autocompletion com TAB :D
 #+END_QUOTE
 
-** Exercícios
-
-Vamos testar o que aprendemos até aqui:
-
-1. Cria uma função no módulo principal que faça o "pattern matching" com status 200 e 404. Abra o shell e teste com repositórios conhecidos e com inexistentes para ver o resultado.
-
 ** Structs
 
 Vimos que o resultado da API é um mapa meio estranho. Ao invés de retornar: %{} ele retorna um %HTTPoison.Response{}. Mas o que é isso?
 
-Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhes agora, mas ele é apenas um mapa especial do Elixir. Pode-se fazer um pattern matching normalmente nele:
+Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhes agora, mas ele é apenas um mapa especial do Elixir. Pode-se fazer um pattern matching normalmente nele quase como se fosse um mapa. Para criar um struct utilizamos a macro "defstruct":
 
-#+BEGIN_SRC elixir
-defmodule Usuario do
-  defstruct nome: "nome default"
-end
+#+BEGIN_SRC elixir :exports both
+  defmodule Usuario do
+    defstruct nome: "nome default"
+  end
 
+  defmodule Test do
+    user = %Usuario{}
+    IO.puts "#{user.nome}"
+  end
 #+END_SRC
+
+#+BEGIN_QUOTE
+*Atenção!*
+
+Reparem que não é possível chamar o struct logo abaixo da sua definição. Para isso criamos outro módulo para separar os contextos.
+#+END_QUOTE
+
+Assim, podemos ver o struct como um mapa nomeado que pode conter valores padrões.
+
+
+** Exercícios
+
+Vamos testar o que aprendemos até aqui:
+
+1. Adicione a biblioteca poison em sua última versão do Hex.pm. Baixe e compile!
+
+2. Veja o retorno desta função da lib Poison:
+#+BEGIN_SRC elixir
+Poison.decode! ~s/{ "json_key": "json_value" }/
+#+END_SRC
+
+3. Faça um teste que chama uma url usando HTTPoison. Por exemplo: 
+
+https://api.bitbucket.org/2.0/repositories/suporte_concrete/desafio-android/pullrequests
+
+4. Implemente nossa função no módulo principal de forma que:
+
+- Aceite o usuário e o repositório
+- Retorne uma lista com mapas no seguinte formato:
+
+%{ "usuario" => "XXXXXX", "repositorio" => "XXXXXXXXXXXXX" }
+
+5. Crie um teste que verifique que o resultado é uma lista que contém apenas mapas.
+
+6. Crie outra função que imprime no console a seguinte saída:
+
+Repositório #{usuario}/#{repositorio}
+
+Pull request: #{author} em #{created_on}
+...
+
