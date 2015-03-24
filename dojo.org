@@ -332,7 +332,7 @@ IO.puts PatternMatchingCasoGenerico.eh_um_pinguim :ornitorrinco
 Para fazer um "match" genérico utilizamos o underscore '_'. 
 
 #+BEGIN_QUOTE
-!!! *Atenção* !!! 
+*Atenção*!
 
 Usamos uma sintaxe encurtada para definir uma função. Quando o retorno cabe emum linha só, ao invés de escrevermos:
 
@@ -343,12 +343,10 @@ end
 Podemos utilizar:
 
 def nome(parametros), do: ...
-
 #+END_QUOTE
 
 #+BEGIN_QUOTE
-
-!!! *Atenção* !!!
+*Atenção*!
 
 O uso de parênteses no Elixir será sempre opcional quando a plataforma conseguir detectar que não há ambiguidade.
 
@@ -357,8 +355,31 @@ Por exemplo:
 def eh_um_pinguim :pinguim, do: true
 
 Irá lançar uma exceção porque a plataforma não identifica se ", do" é outro parâmetro da função. Por isso utilizamos os parênteses.
-
 #+END_QUOTE
+
+Apenas mais um exemplo para mostrar o poder de pattern matching em funções com argumentos keyword.
+
+#+BEGIN_SRC elixir :exports both
+
+defmodule KeyWordMatch do
+
+  def busca_usuario name: name do
+    IO.puts "Buscando usuário pelo nome #{name}"
+  end
+
+  def busca_usuario email: email do
+    IO.puts "Buscando usuário pelo e-mail #{email}"
+  end
+
+  def busca_usuario idade: idade do
+    IO.puts "Buscando usuário pela idade #{inspect idade}"
+  end
+end
+
+KeyWordMatch.busca_usuario name: "Joseph Klimber" 
+KeyWordMatch.busca_usuario email: "Joseph.Klimber@pesodepapel.com" 
+KeyWordMatch.busca_usuario idade: 10 
+#+END_SRC
 
 ** Recursividade
 
@@ -484,6 +505,7 @@ def inverte(lista), do: #????
 def fac(numero), do: #????
 #+END_SRC
 
+
 * Criando nosso primeiro projeto: MIX
 
 Até agora estamos executando código em arquivos soltos sem uma estrutura de projeto bem definida. De agora em diante vamos criar projetos completos.
@@ -529,3 +551,248 @@ mix test              # Run a project's tests
 iex -S mix            # Start IEx and run the default task
 #+END_SRC
 
+** Primeiro projeto: mix new 
+
+Vamos criar um projeto desafio_cs. Primeiro vamos criar o projeto. Utilizemos o mix:
+
+#+BEGIN_SRC sh
+mix new desafio_cs
+#+END_SRC
+
+Os arquivos gerados são:
+
+#+BEGIN_SRC elixir
+README.md # mix já cria um README do seu projeto
+.gitignore # também já ganha um .gitignore
+mix.exs # arquivo principal descritor da nossa aplicação
+config # diretório de configurações
+config/config.exs # configs default
+lib # diretório onde irá nosso código
+lib/desafio_cs.ex # arquivo principal do nosso projeto (modulo principal)
+test # diretório de testes
+test/test_helper.exs # arquivo para preparar o framework de test
+test/desafio_cs_test.exs # nosso primeiro arquivo de testes
+#+END_SRC
+
+Vemos logo de cara que um projeto em Elixir possui uma estrutura bem definida com tudo o que precisamos. Testes, configurações e nosso próprio código.
+
+** Arquivo mix.exs 
+
+Vamos ver o conteúdo padrão do arquivo. 
+
+#+BEGIN_SRC elixir
+defmodule DesafioCs.Mixfile do
+  use Mix.Project
+
+  def project do
+    [app: :desafio_cs,
+     version: "0.0.1",
+     elixir: "~> 1.0",
+     deps: deps]
+  end
+
+  # Configuration for the OTP application
+  #
+  # Type `mix help compile.app` for more information
+  def application do
+    [applications: [:logger]]
+  end
+
+  # Dependencies can be Hex packages:
+  #
+  #   {:mydep, "~> 0.3.0"}
+  #
+  # Or git/path repositories:
+  #
+  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
+  #
+  # Type `mix help deps` for more examples and options
+  defp deps do
+    []
+  end
+end
+#+END_SRC
+
+Este é um módulo padrão do Elixir. Ele se equipara a um pom.xml ou build.gradle.
+
+Talvez o mais diferente para olhos não treinados seja o valor da chave deps na keyword de retorno da função application. Ela nada mais é que a chamada da função deps sem argumentos.
+
+Há uma palavra nova para nós que é o "use Mix.Project". Isto é uma forma de importarmos os módulo Mix.Project com um tempero a mais...
+
+Não vamos tratar disso agora, mas a palavra "use" permite que o módulo referenciado injete funções no nosso módulo. Isso é um tópico avançado que envolve metaprogramação. Veremos isso mais adiante!
+
+Os atributos do nosso projeto são pré definidos pela especificação do Mix. Na [[http://elixir-lang.org/docs/v1.0/mix/][documentação]] há todas as possibilidades.
+
+** Testes e mais testes
+
+Sei que ainda não falamos do que se trata nosso desafio, mas vejamos o que há no arquivo desafio_cs_test.exs
+
+#+BEGIN_SRC elixir
+defmodule DesafioCsTest do
+  use ExUnit.Case
+
+  test "the truth" do
+    assert 1 + 1 == 2
+  end
+end
+#+END_SRC
+
+Isso é um pouco irritante para um filósofo, mas vemos que há o teste "da verdade". De novo temos a palavra "use"... 
+
+Parece que esse código não compila né? Não existe a palavra reservada "test". Muito menos a assert. Porém, lembra que do que falamos sobre "use"?
+
+Exato. ExUnit.Case injeta algumas funções no nosso módulo. É o caso das duas funções que falamos. A primeira recebe uma string (binary) e um bloco de execução. A segunda verifica se o operador é satisfeito dado o que é passado antes e depois dele.
+
+Podemos executar este teste usando o mix. Na raiz do projeto é só digitar mix test. Para quem usa uma IDE ou plugin, verifique a documentação de cada um. Por exemplo, no Emacs o atalho é C-c a t.
+
+Se não acontecer nada no reino da Matemática, o teste deve passar.
+
+Para criarmos um novo teste basta criar outra chamada para "test". Exemplo:
+
+#+BEGIN_SRC elixir
+defmodule DesafioCsTest do
+  use ExUnit.Case
+
+  test "the truth" do
+    assert 1 + 1 == 2
+  end
+
+  test "com string" do
+    assert "minha string bonita" ~= "bonita"
+  end
+
+  test "que irá quebrar tudo" do
+    assert "minha string bonita" ~= "sua feia"
+  end
+end
+#+END_SRC
+
+Neste caso usamos outro operador: =~. Ele verifica se o RHS (right hand side), ou seja, o que há do lado direito dele está contido no lado esquerdo (LHS).
+
+No primeiro caso "com string" tudo está ok. O RHS está contido no LHS. Porém no caso abaixo irá falhar. Veja que na mensagem de erro ele usa justamente RHS e LHS. 
+
+
+* Desafio cliente de linha de comando do Bitbucket
+
+Pronto! Podemos começar nosso desafio. Apenas para recapitular, nós vimos:
+
+- Tipos básicos da linguagem
+- Como criar funções em módulos e como chamá-las
+- Como definir melhor o contrato das funções com guards
+- Aspectos da linguagem funcional como recursão e pattern matching
+- Como criar um projeto mix
+- Como criar testes para o nosso projeto
+- Como executar os testes do projeto
+
+Agora vamos utlizar tudo isso para consultarmos uma API REST e exibí-la pelo console iex. Prontos?
+
+** Definindo nosso escopo e interface
+
+Queremos fazer um request para um repositório e listar de forma legível todos os pullrequests associados àquele repositório. Simples não?
+
+Primeiro vamos abrir nosso primeiro arquivo ".ex". Ele está dentro da pasta lib e por enquanto contém apenas:
+
+#+BEGIN_SRC elixir
+defmodule DesafioCs do
+end
+#+END_SRC
+
+Nada demais, mas será nele que colocaremos nossas funções.
+
+Agora, vamos pensar em como gostaríamos de chamar as funções. Os parâmetros parecem ser:
+
+- usuário
+- repositório
+
+De tudo que vimos, podemos pensar em várias formas de definir esta função. Vejamos alguns exemplos:
+
+#+BEGIN_SRC elixir
+defmodule DesafioCs do
+
+  def pullrequests usuario, repositorio do
+    :ok # faremos a busca aqui...
+  end
+
+  def pullrequests2 usuario: usuario, repositorio: repo do
+    :ok # talvez um pouco mais idiomático... melhor? Não sei...
+  end
+
+  def pullrequests3 %{usuario: usuario, repositorio: repo} do
+    :ok # mais feio... 
+  end
+end
+#+END_SRC
+
+Podemos pensar que a primeira opção e as demais são idênticas. Porém, se quisermos aumentar as opções no futuro teríamos que refatorar todos os lugares que faz esta chamada. Assim, vamos com a segunda opção que é bem simples e mostra a intenção da função.
+
+Ok. Mas como eu faço uma requisição para uma API REST?
+
+** Dependências no MIX
+
+Temos um cliente http puro em Erlang que poderíamos tranquilamente usar para fazer nossa chamada. No entanto, para facilitar nosso lado, utilizaremos uma dependência. 
+
+Para isso, basta lembrar que nosso arquivo mix.exs possui uma sessão de dependências. Mas existe um NPM para o Elixir? Um Maven Central? Oh yeah baby...
+
+Já temos milhares de bibliotecas puras em Elixir no gerenciador de pacotes [[http://hex.pm][Hex]]. Desde banco de dados até calendário japonês.
+
+Como encontrar uma lib de http? Basta acessar o portal e digitar http na busca. 
+
+Utilizaremos a lib :httpoison. Edite o arquivo mix.exs (de acordo com a documentação da lib):
+
+#+BEGIN_SRC elixir
+  def application do
+    [applications: [:logger, :httpoison]]
+  end
+
+  defp deps do
+    [{:httpoison, "~> 0.6"}]
+  end
+#+END_SRC 
+
+Para poder testar a lib, precisamos de mais alguns comandos do mix.
+
+#+BEGIN_SRC sh
+mix deps.get
+# espera baixar a lib (deve ser ridiculamente pequena)
+mix deps.compile
+# irá perguntar se deve instalar o rebar. Apenas aceite :D
+#+END_SRC
+
+Após compilar, vamos iniciar uma sessão iex com a dependência no load path:
+
+#+BEGIN_SRC elixir
+iex -S mix 
+#+END_SRC
+
+Agora estamos em um shell iex com nosso projeto no path mais nossas dependências. Este comando não é nada assim tão especial... com a flag -S podemos passar qualquer script Elixir. No caso passamos um script mix.exs. Ele sabe colocar as dependências no path e identificar que estamos em um projeto.
+
+Agora vamos testar algumas coisas. Digite os seguintes comandos no shell:
+#+BEGIN_SRC elixir
+# Vamos testar o HTTPoison!
+HTTPoison.get "https://api.bitbucket.org/2.0/repositories/suporte_concrete/desafio-android/pullrequests"
+#+END_SRC
+
+#+BEGIN_QUOTE
+*Atenção!*
+
+Reparem que logo após digitar o nome do módulo você ganha autocompletion com TAB :D
+#+END_QUOTE
+
+** Exercícios
+
+Vamos testar o que aprendemos até aqui:
+
+1. Cria uma função no módulo principal que faça o "pattern matching" com status 200 e 404. Abra o shell e teste com repositórios conhecidos e com inexistentes para ver o resultado.
+
+** Structs
+
+Vimos que o resultado da API é um mapa meio estranho. Ao invés de retornar: %{} ele retorna um %HTTPoison.Response{}. Mas o que é isso?
+
+Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhes agora, mas ele é apenas um mapa especial do Elixir. Pode-se fazer um pattern matching normalmente nele:
+
+#+BEGIN_SRC elixir
+defmodule Usuario do
+  defstruct nome: "nome default"
+end
+
+#+END_SRC
