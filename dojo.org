@@ -391,7 +391,7 @@ No entanto, é uma parte fundamental do Elixir e veremos que não é nenhum bixo
 defmodule Fibonacci do
 
   def fib(1), do: 1
-  def fib(2), do: 2
+  def fib(2), do: 1
   def fib(n) when is_integer(n) and n > 2 do
    fib(n - 1) + fib(n - 2)
   end 
