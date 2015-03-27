@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>DOJO sobre Elixir</title>
-<!-- 2015-03-25 Qua 10:51 -->
+<!-- 2015-03-27 Sex 17:08 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Victor Oliveira Nascimento &lt;victor.nascimento@concretesolutions.com.br&gt;" />
@@ -216,14 +216,16 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. Começando - Familiarizando-se com o shell</a>
+<li><a href="#sec-1">1. Começando</a>
 <ul>
-<li><a href="#sec-1-1">1.1. Se virando no shell</a>
+<li><a href="#sec-1-1">1.1. Instalando</a></li>
+<li><a href="#sec-1-2">1.2. Familiarizando-se com o shell</a></li>
+<li><a href="#sec-1-3">1.3. Se virando no shell</a>
 <ul>
-<li><a href="#sec-1-1-1">1.1.1. Autocomplete</a></li>
-<li><a href="#sec-1-1-2">1.1.2. Documentação</a></li>
-<li><a href="#sec-1-1-3">1.1.3. Histórico de comandos</a></li>
-<li><a href="#sec-1-1-4">1.1.4. Outras utilidades</a></li>
+<li><a href="#sec-1-3-1">1.3.1. Autocomplete</a></li>
+<li><a href="#sec-1-3-2">1.3.2. Documentação</a></li>
+<li><a href="#sec-1-3-3">1.3.3. Histórico de comandos</a></li>
+<li><a href="#sec-1-3-4">1.3.4. Outras utilidades</a></li>
 </ul>
 </li>
 </ul>
@@ -235,16 +237,24 @@ for the JavaScript code in this tag.
 <li><a href="#sec-2-3">2.3. String e lista de caracteres (exemplo e resultado)</a></li>
 <li><a href="#sec-2-4">2.4. Tipos de coleção: Listas, tuplas e mapas</a></li>
 <li><a href="#sec-2-5">2.5. Só tem isso?</a></li>
+<li><a href="#sec-2-6">2.6. Exercícios</a></li>
 </ul>
 </li>
-<li><a href="#sec-3">3. Arquivos de código fonte</a></li>
+<li><a href="#sec-3">3. Arquivos de código fonte</a>
+<ul>
+<li><a href="#sec-3-1">3.1. Primeiro arquivo</a></li>
+<li><a href="#sec-3-2">3.2. Exercícios</a></li>
+</ul>
+</li>
 <li><a href="#sec-4">4. Linguagem funcional</a>
 <ul>
 <li><a href="#sec-4-1">4.1. Pattern Matching</a></li>
 <li><a href="#sec-4-2">4.2. Pattern Matching em funções</a></li>
-<li><a href="#sec-4-3">4.3. Recursividade</a></li>
-<li><a href="#sec-4-4">4.4. Guards</a></li>
-<li><a href="#sec-4-5">4.5. Exerícios</a></li>
+<li><a href="#sec-4-3">4.3. Funções anônimas</a></li>
+<li><a href="#sec-4-4">4.4. Recursividade</a></li>
+<li><a href="#sec-4-5">4.5. Guards</a></li>
+<li><a href="#sec-4-6">4.6. Outros construtos do Elixir</a></li>
+<li><a href="#sec-4-7">4.7. Exerícios</a></li>
 </ul>
 </li>
 <li><a href="#sec-5">5. Criando nosso primeiro projeto: MIX</a>
@@ -271,8 +281,20 @@ Guia para um DOJO de Elixir.
 </p>
 
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> Começando - Familiarizando-se com o shell</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> Começando</h2>
 <div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Instalando</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Garanta que já está com o ambiente instalado. Instruções de instalação estão <a href="http://elixir-lang.org/install.html">aqui</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Familiarizando-se com o shell</h3>
+<div class="outline-text-3" id="text-1-2">
 <p>
 Para começar uma sessão do iex (Interactive Elixir Shell), faça o seguinte teste:
 </p>
@@ -302,18 +324,19 @@ Tentem o seguinte código e verifiquem a saída:
 Hello Victor!
 </pre>
 </div>
+</div>
 
-<div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Se virando no shell</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Se virando no shell</h3>
+<div class="outline-text-3" id="text-1-3">
 <p>
 Dentro de uma sessão de iex temos várias funções já implementadas. Veremos algumas a seguir.
 </p>
 </div>
 
-<div id="outline-container-sec-1-1-1" class="outline-4">
-<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Autocomplete</h4>
-<div class="outline-text-4" id="text-1-1-1">
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Autocomplete</h4>
+<div class="outline-text-4" id="text-1-3-1">
 <p>
 Por exemplo, temos autocomplete dos módulos do Elixir. Digitem "String." (sem as aspas) e apertem o tab.
 </p>
@@ -343,9 +366,9 @@ valid?/1              valid_character?/1
 </div>
 </div>
 
-<div id="outline-container-sec-1-1-2" class="outline-4">
-<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Documentação</h4>
-<div class="outline-text-4" id="text-1-1-2">
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Documentação</h4>
+<div class="outline-text-4" id="text-1-3-2">
 <p>
 Existe uma função h que nos mostra a documentação de qualquer função. Experimentem o seguinte no shell: "h Enum.filter_map" (sem as aspas!!!).
 </p>
@@ -368,18 +391,18 @@ Examples
 </div>
 </div>
 
-<div id="outline-container-sec-1-1-3" class="outline-4">
-<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> Histórico de comandos</h4>
-<div class="outline-text-4" id="text-1-1-3">
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> Histórico de comandos</h4>
+<div class="outline-text-4" id="text-1-3-3">
 <p>
 Ao chamar a função v (apenas digite v e enter), você poderá ver o histórico de sua sessão.
 </p>
 </div>
 </div>
 
-<div id="outline-container-sec-1-1-4" class="outline-4">
-<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> Outras utilidades</h4>
-<div class="outline-text-4" id="text-1-1-4">
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4"><span class="section-number-4">1.3.4</span> Outras utilidades</h4>
+<div class="outline-text-4" id="text-1-3-4">
 <p>
 Existem milhares de outras funcionalidade que serão mais úteis ao decorrer do DOJO.
 </p>
@@ -554,18 +577,30 @@ Existem outros tipos na linguagem que falaremos conforme formos avançando. Apen
 </p>
 </div>
 </div>
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Exercícios</h3>
+<div class="outline-text-3" id="text-2-6">
+<ol class="org-ol">
+<li>Criem um mapa que represente um usuário que possua nome, idade, email, uma lista de endereços.
+</li>
+</ol>
 </div>
-
+</div>
+</div>
 
 <div id="outline-container-sec-3" class="outline-2">
 <h2 id="sec-3"><span class="section-number-2">3</span> Arquivos de código fonte</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-Agora chega de só usar o shell e vamos criar arquivos com nossos códigos. Crie uma pasta elixir-dojo e um arquivo module.exs.
+Agora chega de só usar o shell e vamos criar arquivos com nossos códigos. Crie uma pasta elixir-dojo onde vamos colocar nosso código.
 </p>
+</div>
 
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Primeiro arquivo</h3>
+<div class="outline-text-3" id="text-3-1">
 <p>
-Façamos um teste. Escrevam no arquivo:
+Crie um arquivo module.exs. Façamos um teste. Escrevam no arquivo:
 </p>
 
 <div class="org-src-container">
@@ -645,9 +680,31 @@ Usamos a macro "defmodule" para criar um módulo. Não iremos falar de macros ag
 <p>
 Da mesma forma, definimos funções com "defun".
 </p>
+
+<blockquote>
+<p>
+<b>Atenção!</b>
+</p>
+
+<p>
+Parênteses em Elixir serão QUASE sempre opcionais. Sempre que o compilador conseguir desambiguizar eles serão opcionais. Há casos em que ele ficará na dúvida se a variável é parte de uma função ou é a chamada para outra função. Assim, caso tenham erros, verifiquem se o compilador está conseguindo desambiguizar.
+</p>
+</blockquote>
 </div>
 </div>
 
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Exercícios</h3>
+<div class="outline-text-3" id="text-3-2">
+<ol class="org-ol">
+<li>Escreva um módulo que defina uma função cria_usuario que receberá um nome, idade, email e a lista de endereço.
+</li>
+<li>Escreva outra função que crie um endereço com logradouro, número e cep.
+</li>
+</ol>
+</div>
+</div>
+</div>
 
 <div id="outline-container-sec-4" class="outline-2">
 <h2 id="sec-4"><span class="section-number-2">4</span> Linguagem funcional</h2>
@@ -672,7 +729,7 @@ Vimos anteriormente que o sinal de igual se comporta um tanto quanto estranhamen
 </div>
 
 <p>
-Isso chama-se "pattern matching". Ao invés de pensarmos no igual como uma atribuição (a variavel passa a representar um valor), tratamos como uma expressão de igualdade.
+Isso chama-se "pattern matching". Ao invés de pensarmos no igual como uma atribuição (a variável passa a representar um valor), tratamos como uma expressão de igualdade.
 </p>
 
 <p>
@@ -684,7 +741,7 @@ O lado esquerdo do igual precisa ser igual ao lado direito. Assim, vejamos algun
 <pre class="src src-elixir"><span style="color: #fcaf3e;">a</span> = 1 <span style="color: #73d216;"># </span><span style="color: #73d216;">a &#233; uma vari&#225;vel sem valor, ent&#227;o o pattern matching atribui 1 ao valor para que a express&#227;o seja verdadeira</span>
 [a] = [1] <span style="color: #73d216;"># </span><span style="color: #73d216;">true</span>
 <span style="color: #fcaf3e;">b</span> = [a] <span style="color: #73d216;"># </span><span style="color: #73d216;">true. b n&#227;o tinha valor</span>
-[c, d, e]  = [ a, <span style="color: #e9b96e;">"testando"</span>, b] <span style="color: #73d216;"># </span><span style="color: #73d216;">true. o padr&#227;o ir&#225; atribuir as vari&#225;veis do lado direito ao lado esquerdo para a express&#227;o ser verdadeira</span>
+[c, d, e]  = [ a, <span style="color: #e9b96e;">"testando"</span>, b] <span style="color: #73d216;"># </span><span style="color: #73d216;">true. O padr&#227;o ir&#225; atribuir as vari&#225;veis do lado direito ao lado esquerdo para a express&#227;o ser verdadeira</span>
 </pre>
 </div>
 
@@ -855,8 +912,42 @@ Buscando usuário pela idade 10
 </div>
 
 <div id="outline-container-sec-4-3" class="outline-3">
-<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Recursividade</h3>
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Funções anônimas</h3>
 <div class="outline-text-3" id="text-4-3">
+<p>
+Elixir não seria uma linguagem funcional se não tivesse "fun"s, ou seja, funções anônimas :D Vejamos alguns exemplos:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #73d216;"># </span><span style="color: #73d216;">A assintatura de uma fun &#233;:</span>
+<span style="color: #73d216;">#</span>
+<span style="color: #73d216;"># </span><span style="color: #73d216;">fn parametros -&gt; corpo end</span>
+<span style="color: #fcaf3e;">a</span> = <span style="color: #b4fa70;">fn</span> nome -&gt; <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Hello fun </span><span style="color: #fcaf3e;">#{nome}</span><span style="color: #e9b96e;">"</span> <span style="color: #b4fa70;">end</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">fn &#233; uma palavra reservada</span>
+<span style="color: #73d216;"># </span><span style="color: #73d216;">parametros pode ser nenhum, um ou muitos:</span>
+<span style="color: #fcaf3e;">b</span> = <span style="color: #b4fa70;">fn</span> -&gt; <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Sem par&#226;metros"</span> <span style="color: #b4fa70;">end</span>
+<span style="color: #fcaf3e;">c</span> = <span style="color: #b4fa70;">fn</span> param1, param2, param3 -&gt; <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Muitos par&#226;metros </span><span style="color: #fcaf3e;">#{param1}</span><span style="color: #e9b96e;"> - </span><span style="color: #fcaf3e;">#{param2}</span><span style="color: #e9b96e;"> - </span><span style="color: #fcaf3e;">#{param3}</span><span style="color: #e9b96e;">"</span> <span style="color: #b4fa70;">end</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">para chamar uma fun&#231;&#227;o an&#244;nima em Elixir &#233; s&#243; utilizar a sintaxe:</span>
+a.(<span style="color: #e9b96e;">"Elixir"</span>)
+b.()
+c.(<span style="color: #e9b96e;">"1"</span>, <span style="color: #e9b96e;">"2"</span>, <span style="color: #e9b96e;">"3"</span>)
+</pre>
+</div>
+
+<pre class="example">
+Hello fun Elixir
+Sem parâmetros
+Muitos parâmetros 1 - 2 - 3
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Recursividade</h3>
+<div class="outline-text-3" id="text-4-4">
 <p>
 Muita gente lembra com horror recursividade da faculdade&#x2026; Provas "maledetas" com perguntas complicadas sobre cálculos recursivos não soa nada bacana&#x2026;
 </p>
@@ -933,9 +1024,11 @@ Mais alguns exemplos de funções recursivas:
     soma lista, acumulador + num
   <span style="color: #b4fa70;">end</span>
 
-  <span style="color: #73d216;"># </span><span style="color: #73d216;">exatament a mesma coisa...</span>
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">exatamente a mesma coisa...</span>
   <span style="color: #b4fa70;">defp</span> <span style="color: #fce94f;">map</span>([], _funcao, acumulador), <span style="color: #87cefa;">do:</span> acumulador
   <span style="color: #b4fa70;">defp</span> <span style="color: #fce94f;">map</span>([ item | lista], funcao, acumulador) <span style="color: #b4fa70;">do</span>
+
+    <span style="color: #73d216;"># </span><span style="color: #73d216;">usando fun&#231;&#245;es an&#244;nimas como par&#226;metros</span>
     map(lista, funcao, [ funcao.(item) | acumulador ])
   <span style="color: #b4fa70;">end</span>
 
@@ -955,16 +1048,12 @@ Mais alguns exemplos de funções recursivas:
 [11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
 [101, 100, 99, 98, 97, 96, 95, 94, 93, 92, 91, 90, 89, 88, 87, 86, 85, 84, 83, 82, 81, 80, 79, 78, 77, 76, 75, 74, 73, 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, ...]
 </pre>
-
-<p>
-Agora um exercício para fixar tudo o que fizemos até agora&#x2026; 
-</p>
 </div>
 </div>
 
-<div id="outline-container-sec-4-4" class="outline-3">
-<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Guards</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Guards</h3>
+<div class="outline-text-3" id="text-4-5">
 <p>
 Vimos alguns exemplos de definições de funções que tinham "guards", mas o que será isso?
 </p>
@@ -1007,9 +1096,75 @@ GuardTest.f1 <span style="color: #87cefa;">:atom</span>
 </div>
 </div>
 
-<div id="outline-container-sec-4-5" class="outline-3">
-<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Exerícios</h3>
-<div class="outline-text-3" id="text-4-5">
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Outros construtos do Elixir</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+Reparem que até agora sequer mostramos como funciona um "if" na linguagem nem outros controles básicos. Em verdade, é possível fazer qualquer coisa com o que temos na mão até o momento. É sério! Com pattern matching e recursão fica tudo muito mais fácil. Porém criar uma função para usar o pattern matching toda hora não é sempre conveniente. Por isso a linguagem possui outros construtos que também utilizam pattern matching:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir">  <span style="color: #73d216;"># </span><span style="color: #73d216;">Primeiro e mais poderoso construto &#233; o "case"</span>
+
+  <span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">Case</span> <span style="color: #b4fa70;">do</span>
+    <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">case_test</span> nome <span style="color: #b4fa70;">do</span>
+
+      <span style="color: #73d216;"># </span><span style="color: #73d216;">passamos qualquer vari&#225;vel para ele "testar" no pattern matching</span>
+      <span style="color: #b4fa70;">case</span> nome <span style="color: #b4fa70;">do</span>
+
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">CASO seja Elixir</span>
+  <span style="color: #e9b96e;">"Elixir"</span> -&gt; 
+     <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Seja bem vindo!"</span>
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">CASO seja Java</span>
+  <span style="color: #e9b96e;">"Java"</span> -&gt;
+     <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Cuidado com seu estado mut&#225;vel!"</span> 
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">CASO seja qualquer outra coisa</span>
+  <span style="color: #e9b2e3;">_</span> -&gt;
+     <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Qualquer outra coisa"</span>
+      <span style="color: #b4fa70;">end</span>
+    <span style="color: #b4fa70;">end</span>
+  <span style="color: #b4fa70;">end</span>
+
+Case.case_test <span style="color: #e9b96e;">"Elixir"</span>
+Case.case_test <span style="color: #e9b96e;">"Java"</span>
+Case.case_test <span style="color: #e9b96e;">"Python"</span>
+
+<span style="color: #73d216;"># </span><span style="color: #73d216;">tamb&#233;m temos if, if/else, unless, unless/else</span>
+
+<span style="color: #fcaf3e;">a</span> = <span style="color: #b4fa70;">if</span> true, <span style="color: #87cefa;">do:</span> 1
+<span style="color: #fcaf3e;">b</span> = <span style="color: #b4fa70;">if</span> false <span style="color: #b4fa70;">do</span>
+      3
+    <span style="color: #b4fa70;">else</span>
+      4
+    <span style="color: #b4fa70;">end</span>
+
+<span style="color: #fcaf3e;">c</span> = <span style="color: #b4fa70;">unless</span> false, <span style="color: #87cefa;">do:</span> 5
+<span style="color: #fcaf3e;">d</span> = <span style="color: #b4fa70;">unless</span> true <span style="color: #b4fa70;">do</span>
+      6
+    <span style="color: #b4fa70;">else</span>
+      7
+    <span style="color: #b4fa70;">end</span>
+
+<span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"a: </span><span style="color: #fcaf3e;">#{a}</span><span style="color: #e9b96e;">\nb: </span><span style="color: #fcaf3e;">#{b}</span><span style="color: #e9b96e;">\nc: </span><span style="color: #fcaf3e;">#{c}</span><span style="color: #e9b96e;">\nd: </span><span style="color: #fcaf3e;">#{d}</span><span style="color: #e9b96e;">"</span>
+</pre>
+</div>
+
+<pre class="example">
+Seja bem vindo!
+Cuidado com seu estado mutável!
+Qualquer outra coisa
+a: 1
+b: 4
+c: 5
+d: 7
+</pre>
+</div>
+</div>
+
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7"><span class="section-number-3">4.7</span> Exerícios</h3>
+<div class="outline-text-3" id="text-4-7">
 <p>
 Criem um módulo que contenha as seguintes funções:
 </p>
@@ -1473,7 +1628,7 @@ Vimos que o resultado da API é um mapa meio estranho. Ao invés de retornar: %{
 </p>
 
 <p>
-Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhes agora, mas ele é apenas um mapa especial do Elixir. Pode-se fazer um pattern matching normalmente nele quase como se fosse um mapa. Para criar um struct utilizamos a macro "defstruct":
+Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhes agora, mas ele é apenas um mapa especial do Elixir. Pode-se fazer um pattern matching normalmente nele quase como se fosse um mapa. Para criar um struct utilizamos a macro "defstruct" mais uma keyword list com os nomes dos campos mais valores default:
 </p>
 
 <div class="org-src-container">
@@ -1485,12 +1640,28 @@ Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhe
 <span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">Test</span> <span style="color: #b4fa70;">do</span>
   <span style="color: #fcaf3e;">user</span> = %Usuario{}
   <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{user.nome}</span><span style="color: #e9b96e;">"</span>
+
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">mesma sintaxe de mapa</span>
+  <span style="color: #fcaf3e;">user</span> = %Usuario{ user | <span style="color: #87cefa;">nome:</span> <span style="color: #e9b96e;">"outro nome"</span> } 
+
+  <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{user.nome}</span><span style="color: #e9b96e;">"</span>
+
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">no entanto, n&#227;o podemos utilizar fun&#231;&#245;es do m&#243;dulo Map para acrescentar chaves</span>
+  <span style="color: #fcaf3e;">nao_eh_um_usuario</span> = <span style="color: #e9b2e3;">Map</span>.put user, <span style="color: #87cefa;">:chave</span>, <span style="color: #e9b96e;">"valor"</span>
+  <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"N&#227;o &#233; um usu&#225;rio: </span><span style="color: #fcaf3e;">#{inspect nao_eh_um_usuario}</span><span style="color: #e9b96e;">\nUser: </span><span style="color: #fcaf3e;">#{inspect user}</span><span style="color: #e9b96e;">"</span>
+
+  <span style="color: #fcaf3e;">usuario_mais_uma_vez</span> = <span style="color: #e9b2e3;">Map</span>.delete nao_eh_um_usuario, <span style="color: #87cefa;">:chave</span>
+  <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Usu&#225;rio mais uma vez: </span><span style="color: #fcaf3e;">#{inspect usuario_mais_uma_vez}</span><span style="color: #e9b96e;">"</span>
 <span style="color: #b4fa70;">end</span>
 </pre>
 </div>
 
 <pre class="example">
 nome default
+outro nome
+Não é um usuário: %{__struct__: Usuario, chave: "valor", nome: "outro nome"}
+User: %Usuario{nome: "outro nome"}
+Usuário mais uma vez: %Usuario{nome: "outro nome"}
 </pre>
 
 <blockquote>
@@ -1504,11 +1675,32 @@ Reparem que não é possível chamar o struct logo abaixo da sua definição. Pa
 </blockquote>
 
 <p>
-Assim, podemos ver o struct como um mapa nomeado que pode conter valores padrões.
+É importante reparar que um struct nada mais é um mapa com chaves em atoms e com uma chave específica :__struct__: <span class="underline"><span class="underline">MODULE</span></span> (nome do módulo). Com isso podemos até mesmo criar um struct dinamicamente:
 </p>
-</div>
+
+<div class="org-src-container">
+
+<pre class="src src-elixir"><span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">Usuario</span> <span style="color: #b4fa70;">do</span>
+  <span style="color: #b4fa70;">defstruct</span> <span style="color: #87cefa;">nome:</span> <span style="color: #e9b96e;">"nome default"</span>
+<span style="color: #b4fa70;">end</span>
+
+<span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">Test</span> <span style="color: #b4fa70;">do</span>
+  <span style="color: #fcaf3e;">user</span> = %Usuario{}
+  <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{inspect user}</span><span style="color: #e9b96e;">"</span>
+
+  <span style="color: #73d216;"># </span><span style="color: #73d216;">criando o memso usu&#225;rio com um mapa dinamicamente</span>
+  <span style="color: #fcaf3e;">outro_user</span> = %{<span style="color: #87cefa;">__struct__:</span> Usuario, <span style="color: #87cefa;">nome:</span> <span style="color: #e9b96e;">"Outro User"</span>}
+  <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"</span><span style="color: #fcaf3e;">#{inspect outro_user}</span><span style="color: #e9b96e;">"</span> <span style="color: #73d216;"># </span><span style="color: #73d216;">qual ser&#225; o resultado?</span>
+<span style="color: #b4fa70;">end</span>
+</pre>
 </div>
 
+<pre class="example">
+%Usuario{nome: "nome default"}
+%Usuario{nome: "Outro User"}
+</pre>
+</div>
+</div>
 
 <div id="outline-container-sec-6-4" class="outline-3">
 <h3 id="sec-6-4"><span class="section-number-3">6.4</span> Exercícios</h3>
@@ -1526,7 +1718,7 @@ Vamos testar o que aprendemos até aqui:
 </ol>
 <div class="org-src-container">
 
-<pre class="src src-elixir">Poison.decode! <span style="color: #e090d7;">~s</span>/{ <span style="color: #e9b96e;">"json_key"</span>: <span style="color: #e9b96e;">"json_value"</span> }/
+<pre class="src src-elixir">Poison.decode! <span style="color: #e9b96e;">"{ \"json_key\": \"json_value\" }"</span>
 </pre>
 </div>
 
@@ -1575,7 +1767,7 @@ Pull request: #{author} em #{created_on}
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Victor Oliveira Nascimento &lt;victor.nascimento@concretesolutions.com.br&gt;</p>
-<p class="date">Created: 2015-03-25 Qua 10:51</p>
+<p class="date">Created: 2015-03-27 Sex 17:08</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

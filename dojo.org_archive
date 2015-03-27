@@ -1,0 +1,44 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/victor/dev/elixir/repositories/elixir_dojo/dojo.org
+
+
+
+* Exercícios
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-03-27 Sex 10:17
+  :ARCHIVE_FILE: ~/dev/elixir/repositories/elixir_dojo/dojo.org
+  :ARCHIVE_OLPATH: Desafio cliente de linha de comando do Bitbucket
+  :ARCHIVE_CATEGORY: dojo
+  :END:
+
+Vamos testar o que aprendemos até aqui:
+
+1. Adicione a biblioteca poison em sua última versão do Hex.pm. Baixe e compile!
+
+2. Veja o retorno desta função da lib Poison:
+#+BEGIN_SRC elixir
+Poison.decode! ~s/{ "json_key": "json_value" }/
+#+END_SRC
+
+3. Faça um teste que chama uma url usando HTTPoison. Por exemplo: 
+
+https://api.bitbucket.org/2.0/repositories/suporte_concrete/desafio-android/pullrequests
+
+4. Implemente nossa função no módulo principal de forma que:
+
+- Aceite o usuário e o repositório
+- Retorne uma lista com mapas no seguinte formato:
+
+%{ "usuario" => "XXXXXX", "repositorio" => "XXXXXXXXXXXXX" }
+
+5. Crie um teste que verifique que o resultado é uma lista que contém apenas mapas.
+
+6. Crie outra função que imprime no console a seguinte saída:
+
+Repositório #{usuario}/#{repositorio}
+
+Pull request: #{author} em #{created_on}
+...
+

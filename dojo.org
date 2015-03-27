@@ -4,7 +4,13 @@
 
 Guia para um DOJO de Elixir.
 
-* Começando - Familiarizando-se com o shell
+* Começando 
+
+** Instalando
+
+Garanta que já está com o ambiente instalado. Instruções de instalação estão [[http://elixir-lang.org/install.html][aqui]].
+
+** Familiarizando-se com o shell
 
 Para começar uma sessão do iex (Interactive Elixir Shell), faça o seguinte teste:
 
@@ -197,13 +203,17 @@ IO.puts "Chamando valor de um mapa por um atalho melhor ainda -> #{g.chave}"
 ** Só tem isso?
 
 Existem outros tipos na linguagem que falaremos conforme formos avançando. Apenas para os curiosos temos ainda PIDs, structs e outros...
+** Exercícios
 
+1. Criem um mapa que represente um usuário que possua nome, idade, email, uma lista de endereços.
 
 * Arquivos de código fonte
 
-Agora chega de só usar o shell e vamos criar arquivos com nossos códigos. Crie uma pasta elixir-dojo e um arquivo module.exs.
+Agora chega de só usar o shell e vamos criar arquivos com nossos códigos. Crie uma pasta elixir-dojo onde vamos colocar nosso código.
 
-Façamos um teste. Escrevam no arquivo:
+** Primeiro arquivo
+
+Crie um arquivo module.exs. Façamos um teste. Escrevam no arquivo:
 
 #+BEGIN_SRC elixir :exports both
 IO.puts "Yo!" # projeto para ganhar milhões
@@ -246,6 +256,16 @@ Usamos a macro "defmodule" para criar um módulo. Não iremos falar de macros ag
 
 Da mesma forma, definimos funções com "defun".
 
+#+BEGIN_QUOTE
+*Atenção!*
+
+Parênteses em Elixir serão QUASE sempre opcionais. Sempre que o compilador conseguir desambiguizar eles serão opcionais. Há casos em que ele ficará na dúvida se a variável é parte de uma função ou é a chamada para outra função. Assim, caso tenham erros, verifiquem se o compilador está conseguindo desambiguizar.
+#+END_QUOTE
+
+** Exercícios
+
+1. Escreva um módulo que defina uma função cria_usuario que receberá um nome, idade, email e a lista de endereço.
+2. Escreva outra função que crie um endereço com logradouro, número e cep.
 
 * Linguagem funcional 
 
@@ -262,7 +282,7 @@ Vimos anteriormente que o sinal de igual se comporta um tanto quanto estranhamen
 
 #+END_SRC
 
-Isso chama-se "pattern matching". Ao invés de pensarmos no igual como uma atribuição (a variavel passa a representar um valor), tratamos como uma expressão de igualdade.
+Isso chama-se "pattern matching". Ao invés de pensarmos no igual como uma atribuição (a variável passa a representar um valor), tratamos como uma expressão de igualdade.
 
 O lado esquerdo do igual precisa ser igual ao lado direito. Assim, vejamos alguns exemplos:
 
@@ -271,7 +291,7 @@ O lado esquerdo do igual precisa ser igual ao lado direito. Assim, vejamos algun
 a = 1 # a é uma variável sem valor, então o pattern matching atribui 1 ao valor para que a expressão seja verdadeira
 [a] = [1] # true
 b = [a] # true. b não tinha valor
-[c, d, e]  = [ a, "testando", b] # true. o padrão irá atribuir as variáveis do lado direito ao lado esquerdo para a expressão ser verdadeira
+[c, d, e]  = [ a, "testando", b] # true. O padrão irá atribuir as variáveis do lado direito ao lado esquerdo para a expressão ser verdadeira
 
 #+END_SRC
 
@@ -381,6 +401,28 @@ KeyWordMatch.busca_usuario email: "Joseph.Klimber@pesodepapel.com"
 KeyWordMatch.busca_usuario idade: 10 
 #+END_SRC
 
+** Funções anônimas
+
+Elixir não seria uma linguagem funcional se não tivesse "fun"s, ou seja, funções anônimas :D Vejamos alguns exemplos:
+
+#+BEGIN_SRC elixir :exports both
+
+# A assintatura de uma fun é:
+#
+# fn parametros -> corpo end
+a = fn nome -> IO.puts "Hello fun #{nome}" end
+
+# fn é uma palavra reservada
+# parametros pode ser nenhum, um ou muitos:
+b = fn -> IO.puts "Sem parâmetros" end
+c = fn param1, param2, param3 -> IO.puts "Muitos parâmetros #{param1} - #{param2} - #{param3}" end
+
+# para chamar uma função anônima em Elixir é só utilizar a sintaxe:
+a.("Elixir")
+b.()
+c.("1", "2", "3")
+#+END_SRC
+
 ** Recursividade
 
 Muita gente lembra com horror recursividade da faculdade... Provas "maledetas" com perguntas complicadas sobre cálculos recursivos não soa nada bacana...
@@ -417,40 +459,40 @@ Vamos por partes:
 Mais alguns exemplos de funções recursivas:
 
 #+BEGIN_SRC elixir :exports both
-defmodule FamosaRecursao do
+  defmodule FamosaRecursao do
 
-  # funções públicas!
-  def soma(lista) when is_list(lista), do: soma(lista, 0)
+    # funções públicas!
+    def soma(lista) when is_list(lista), do: soma(lista, 0)
 
-  def map(lista, funcao) when is_list(lista) and is_function(funcao) do
-    map(lista, funcao, [])
+    def map(lista, funcao) when is_list(lista) and is_function(funcao) do
+      map(lista, funcao, [])
+    end
+
+    # funções privadas
+    # caso básico: quando a lista é vazia temos que parar a recursão
+    defp soma([], acumulador), do: acumulador
+    # recursão foderosa...
+    defp soma [num | lista], acumulador do
+      soma lista, acumulador + num
+    end
+
+    # exatamente a mesma coisa...
+    defp map([], _funcao, acumulador), do: acumulador
+    defp map([ item | lista], funcao, acumulador) do
+
+      # usando funções anônimas como parâmetros
+      map(lista, funcao, [ funcao.(item) | acumulador ])
+    end
+
   end
 
-  # funções privadas
-  # caso básico: quando a lista é vazia temos que parar a recursão
-  defp soma([], acumulador), do: acumulador
-  # recursão foderosa...
-  defp soma [num | lista], acumulador do
-    soma lista, acumulador + num
-  end
+  IO.puts "#{inspect FamosaRecursao.soma [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}"
+  IO.puts "#{inspect FamosaRecursao.soma Enum.to_list(1..100)}"
 
-  # exatament a mesma coisa...
-  defp map([], _funcao, acumulador), do: acumulador
-  defp map([ item | lista], funcao, acumulador) do
-    map(lista, funcao, [ funcao.(item) | acumulador ])
-  end
-
-end
-
-IO.puts "#{inspect FamosaRecursao.soma [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}"
-IO.puts "#{inspect FamosaRecursao.soma Enum.to_list(1..100)}"
-
-IO.puts "#{inspect FamosaRecursao.map [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], fn numero -> numero + 1 end}"
-IO.puts "#{inspect FamosaRecursao.map Enum.to_list(1..100), fn numero -> numero + 1 end}"
+  IO.puts "#{inspect FamosaRecursao.map [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], fn numero -> numero + 1 end}"
+  IO.puts "#{inspect FamosaRecursao.map Enum.to_list(1..100), fn numero -> numero + 1 end}"
 
 #+END_SRC
-
-Agora um exercício para fixar tudo o que fizemos até agora... 
 
 ** Guards
 
@@ -479,6 +521,56 @@ GuardTest.f1 "binário"
 GuardTest.f1 %{}
 GuardTest.f1 []
 GuardTest.f1 :atom
+#+END_SRC
+
+** Outros construtos do Elixir
+
+Reparem que até agora sequer mostramos como funciona um "if" na linguagem nem outros controles básicos. Em verdade, é possível fazer qualquer coisa com o que temos na mão até o momento. É sério! Com pattern matching e recursão fica tudo muito mais fácil. Porém criar uma função para usar o pattern matching toda hora não é sempre conveniente. Por isso a linguagem possui outros construtos que também utilizam pattern matching:
+
+#+BEGIN_SRC elixir :exports both
+
+  # Primeiro e mais poderoso construto é o "case"
+
+  defmodule Case do
+    def case_test nome do
+
+      # passamos qualquer variável para ele "testar" no pattern matching
+      case nome do
+
+        # CASO seja Elixir
+        "Elixir" -> 
+           IO.puts "Seja bem vindo!"
+        # CASO seja Java
+        "Java" ->
+           IO.puts "Cuidado com seu estado mutável!" 
+        # CASO seja qualquer outra coisa
+        _ ->
+           IO.puts "Qualquer outra coisa"
+      end
+    end
+  end
+
+Case.case_test "Elixir"
+Case.case_test "Java"
+Case.case_test "Python"
+
+# também temos if, if/else, unless, unless/else
+
+a = if true, do: 1
+b = if false do
+      3
+    else
+      4
+    end
+
+c = unless false, do: 5
+d = unless true do
+      6
+    else
+      7
+    end
+
+IO.puts "a: #{a}\nb: #{b}\nc: #{c}\nd: #{d}"
 #+END_SRC
 
 ** Exerícios
@@ -782,7 +874,7 @@ Reparem que logo após digitar o nome do módulo você ganha autocompletion com 
 
 Vimos que o resultado da API é um mapa meio estranho. Ao invés de retornar: %{} ele retorna um %HTTPoison.Response{}. Mas o que é isso?
 
-Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhes agora, mas ele é apenas um mapa especial do Elixir. Pode-se fazer um pattern matching normalmente nele quase como se fosse um mapa. Para criar um struct utilizamos a macro "defstruct":
+Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhes agora, mas ele é apenas um mapa especial do Elixir. Pode-se fazer um pattern matching normalmente nele quase como se fosse um mapa. Para criar um struct utilizamos a macro "defstruct" mais uma keyword list com os nomes dos campos mais valores default:
 
 #+BEGIN_SRC elixir :exports both
   defmodule Usuario do
@@ -792,6 +884,18 @@ Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhe
   defmodule Test do
     user = %Usuario{}
     IO.puts "#{user.nome}"
+
+    # mesma sintaxe de mapa
+    user = %Usuario{ user | nome: "outro nome" } 
+
+    IO.puts "#{user.nome}"
+
+    # no entanto, não podemos utilizar funções do módulo Map para acrescentar chaves
+    nao_eh_um_usuario = Map.put user, :chave, "valor"
+    IO.puts "Não é um usuário: #{inspect nao_eh_um_usuario}\nUser: #{inspect user}"
+
+    usuario_mais_uma_vez = Map.delete nao_eh_um_usuario, :chave
+    IO.puts "Usuário mais uma vez: #{inspect usuario_mais_uma_vez}"
   end
 #+END_SRC
 
@@ -801,8 +905,22 @@ Trata-se de mais um tipo do Elixir: um struct. Não precisamos entrar em detalhe
 Reparem que não é possível chamar o struct logo abaixo da sua definição. Para isso criamos outro módulo para separar os contextos.
 #+END_QUOTE
 
-Assim, podemos ver o struct como um mapa nomeado que pode conter valores padrões.
+É importante reparar que um struct nada mais é um mapa com chaves em atoms e com uma chave específica :__struct__: __MODULE__ (nome do módulo). Com isso podemos até mesmo criar um struct dinamicamente:
 
+#+BEGIN_SRC elixir :exports both
+  defmodule Usuario do
+    defstruct nome: "nome default"
+  end
+
+  defmodule Test do
+    user = %Usuario{}
+    IO.puts "#{inspect user}"
+
+    # criando o memso usuário com um mapa dinamicamente
+    outro_user = %{__struct__: Usuario, nome: "Outro User"}
+    IO.puts "#{inspect outro_user}" # qual será o resultado?
+  end
+#+END_SRC
 
 ** Exercícios
 
@@ -812,7 +930,7 @@ Vamos testar o que aprendemos até aqui:
 
 2. Veja o retorno desta função da lib Poison:
 #+BEGIN_SRC elixir
-Poison.decode! ~s/{ "json_key": "json_value" }/
+Poison.decode! "{ \"json_key\": \"json_value\" }"
 #+END_SRC
 
 3. Faça um teste que chama uma url usando HTTPoison. Por exemplo: 
