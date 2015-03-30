@@ -207,6 +207,7 @@ Existem outros tipos na linguagem que falaremos conforme formos avançando. Apen
 
 1. Criem um mapa que represente um usuário que possua nome, idade, email, uma lista de endereços.
 
+
 * Arquivos de código fonte
 
 Agora chega de só usar o shell e vamos criar arquivos com nossos códigos. Crie uma pasta elixir-dojo onde vamos colocar nosso código.
@@ -266,6 +267,7 @@ Parênteses em Elixir serão QUASE sempre opcionais. Sempre que o compilador con
 
 1. Escreva um módulo que defina uma função cria_usuario que receberá um nome, idade, email e a lista de endereço.
 2. Escreva outra função que crie um endereço com logradouro, número e cep.
+
 
 * Linguagem funcional 
 

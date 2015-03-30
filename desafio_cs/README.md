@@ -1,4 +1,0 @@
-DesafioCs
-=========
-
-** TODO: Add description **
