@@ -581,23 +581,23 @@ Criem um módulo que contenha as seguintes funções:
 
 1. Filter: dada uma lista de elementos retornar apenas aqueles que satisfazem a função de filtro. O resultado da função será sempre true ou false e não precisa se preocupar com guards.
 
-#+BEGIN_SRC elixir
-def filter (lista_de_elementos, funcao_de_filtro) do
-## ????
-end
-#+END_SRC
+    #+BEGIN_SRC elixir
+    def filter (lista_de_elementos, funcao_de_filtro) do
+    ## ????
+    end
+    #+END_SRC
 
 2. Inversão de lista: lembra como o resultado sempre vem invertido da função map? Crie uma função que inverta o resultado.
 
-#+BEGIN_SRC elixir
-def inverte(lista), do: #????
-#+END_SRC
+    #+BEGIN_SRC elixir
+    def inverte(lista), do: #????
+    #+END_SRC
 
 3. Fatorial :D Dado um número positivo, calcular N * (N - 1 ) * (N - 2) ... 1
 
-#+BEGIN_SRC elixir
-def fac(numero), do: #????
-#+END_SRC
+    #+BEGIN_SRC elixir
+    def fac(numero), do: #????
+    #+END_SRC
 
 
 * Criando nosso primeiro projeto: MIX
@@ -931,27 +931,27 @@ Vamos testar o que aprendemos até aqui:
 1. Adicione a biblioteca poison em sua última versão do Hex.pm. Baixe e compile!
 
 2. Veja o retorno desta função da lib Poison:
-#+BEGIN_SRC elixir
-Poison.decode! "{ \"json_key\": \"json_value\" }"
-#+END_SRC
+    #+BEGIN_SRC elixir
+    Poison.decode! "{ \"json_key\": \"json_value\" }"
+    #+END_SRC
 
 3. Faça um teste que chama uma url usando HTTPoison. Por exemplo: 
 
-https://api.bitbucket.org/2.0/repositories/suporte_concrete/desafio-android/pullrequests
+    https://api.bitbucket.org/2.0/repositories/suporte_concrete/desafio-android/pullrequests
 
 4. Implemente nossa função no módulo principal de forma que:
 
-- Aceite o usuário e o repositório
-- Retorne uma lista com mapas no seguinte formato:
-
-%{ "usuario" => "XXXXXX", "repositorio" => "XXXXXXXXXXXXX" }
+    - Aceite o usuário e o repositório
+    - Retorne uma lista com mapas no seguinte formato:
+    
+    %{ "usuario" => "XXXXXX", "repositorio" => "XXXXXXXXXXXXX" }
 
 5. Crie um teste que verifique que o resultado é uma lista que contém apenas mapas.
 
 6. Crie outra função que imprime no console a seguinte saída:
 
-Repositório #{usuario}/#{repositorio}
-
-Pull request: #{author} em #{created_on}
+    Repositório #{usuario}/#{repositorio}
+    
+    Pull request: #{author} em #{created_on}
 ...
 
