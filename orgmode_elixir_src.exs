@@ -1,8 +1,9 @@
-defmodule Usuario do
-  defstruct nome: "nome default"
+
+defmodule ValorDefault do
+  def start lista \\ [] do
+    # lista não é mais um parâmetro obrigatório!
+    lista
+  end
 end
 
-defmodule Test do
-  user = %Usuario{}
-  IO.puts "#{user.nome}"
-end
+IO.puts "#{inspect ValorDefault.start}"

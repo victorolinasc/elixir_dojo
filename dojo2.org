@@ -1,0 +1,424 @@
+#+SETUPFILE: setup.org
+
+#+TITLE: Dojo 2 - Elixir Concorrente
+
+Segundo dia do dojo de Elixir para vermos a parte concorrente da linguagem.
+
+#+BEGIN_QUOTE
+*Atenção!*
+
+Assume-se que a parte 1 já tenha sido feita pelos participantes.
+#+END_QUOTE
+
+
+* Onde paramos?
+
+Na primeira parte vimos diversos tópicos relacionados ao lado sequencial do Elixir. São eles:
+
+1. iex
+   - Aprendemos a nos virar no shell para ver documentação, autocomplete e etc.
+2. Tipos primitivos básicos
+   - Numéricos: inteiros e flutuantes
+   - Atoms
+   - Strings (binárias e lista de caracteres)
+   - Listas
+   - Tuplas
+   - Mapas
+   - Listas keyword
+3. Execução de scripts elixir com "elixir arquivo.exs"
+4. Construtos de linguagens funcionais
+   - Pattern matching
+   - Funções anônimas
+   - Recursão
+   - Guards
+5. Outros construtos da linguagem
+   - "case"
+   - "if" e "unless"
+6. Tooling
+   - Mix para criar projetos
+   - Mix para executar os testes usando ExUnit
+   - Hex.pm para genrenciar dependências
+
+Olhando assim nem parece tanta coisa, mas já temos QUASE tudo o que precisamos para criar projetos simples. Nos exemplos vimos como modelar um usuário, encapsular funções em módulos e testar nossos módulos. Mas então o que falta? 
+
+Primeiro faremos uma passada nas dependências entre módulos. Como eu importo uma função de outro módulo? Existe "namespace" em elixir?
+
+Depois entraremos de cabeça na parte assíncrona.
+
+* Dependências entre módulos
+
+Usamos a seguinte sintaxe para definir dependências entre módulos:
+
+#+BEGIN_SRC elixir :exports both
+
+defmodule MeuModuloComDependencias do
+  # Import elimina a necessidade do nome do Módulo para chamar suas funções
+  import Float
+  # Para evitar colisão de nomes, pode-se optar quais funções se quer importar
+  import String, only: [upcase: 1]
+  
+  # Require importa as definições de macros (que não será nosso foco nessa parte)
+  require Integer
+  
+  # Não precisamos usar String.upcase/1
+  IO.puts upcase "serei caixa alta"
+  IO.puts "Arredondando: #{floor 12.12}" 
+
+  # Uma macro é uma função que tem acesso a estrutura de dados do código (AST)
+  # Em Elixir, um exemplo é is_odd/1 do módulo Integer. Ele é uma macro para ser usado em guards.
+  # Veremos macros em detalhes em uma outra parte
+  IO.puts Integer.is_odd(3) # sem o require essa linha falha
+end
+
+#+END_SRC
+
+Existe ainda outra forma de depender de outros módulos que é usando a palavra reservada "use". Com ela você importa o módulo em questão e "requer" suas macros. Há mais diferenças, mas veremos mais a frente em maiores detalhes.
+
+#+BEGIN_SRC elixir
+
+defmodule NaoTenhoFuncoes do
+  use ExUnit # esta linha magicamente cria funções no meu módulo
+
+  # ao "usar" ExUnit ganhamos esta função. Aqui simplesmente invocamos a função.
+  test "sou uma função definida dinamicamente" do
+    :ok
+  end
+end
+
+#+END_SRC
+
+* Processos
+
+Se você olhar todos os módulos do Elixir, verá que nenhum trata de criação de Threads. Isso porque a VM é baseada na arquitetura de atores e mensagens. 
+
+** Processos como atores
+
+De fato, um ator é um processo leve e não uma thread. Este processo leve é tão importante que é um *primitivo da linguagem*. Vejamos alguns exemplos:
+
+#+BEGIN_SRC elixir
+
+# o módulo mais simples de todos
+defmodule ImageComics do
+
+  def hello(name), do: IO.puts "Hello #{name}"
+
+end
+
+# Ok, mas como o executamos assíncronamente?
+# Basta chamar a função spawn
+
+pid = spawn fn -> ImageComics.hello "Async" end
+# esse comando irá exibir o retorno da chamada e um valor estranho.
+
+IO.puts "#{inspect pid}" # -> mostra algo estranho como: #PID<0.54.0>
+# isso é o identificador deste ator. 
+
+# No nosso teste, criamos um processo executandoo "spawn" passando uma função anônima. Essa função foi executada em outro processo. Qual? O que mostramos o valor de seu PID (Process Identifier).
+#+END_SRC
+
+*** Exercícios
+
+1. Abra um shell iex e vejam a documentação de spawn com "h spawn". Além de spawn/1 irá mostrar a documentação de spawn/3. Chama a função String.upcase/1 com o valor "caixa alta" de forma assíncrona.
+
+2. Veja a documentação da função self/0.
+
+** Atores: check! Mensagens: ?
+
+Vimos como criar atores usando spawn. Aliás, atores nada mais são do que processos leves dentro da ErlangVM. No entanto, só vimos o efeito de criar um processo porque ele imprime no console uma mensagem. Não é nada lá muito útil né?
+
+Para um processo se comunicar com outro ele precisa passar mensagens. Para isso usamos a função send e para "escutar" mensagens usamos a palavra reservada /receive/.
+
+#+BEGIN_SRC elixir :exports both
+
+  # A função send/2 recebe um PID e um termo qualquer. 
+
+  # Primeiro vamos criar um processo que irá escutar mensagens. Depois passamos esse PID para a função send.
+
+  pid = spawn fn -> 
+    receive do
+      # é boa prática (e muito comum em Erlang) colocar o PID de quem manda a mensagem
+      # Assim conseguimos "devolver" o resultado
+      {from, message} ->
+        send from, {self, "Hello #{message}"}
+    end
+  end
+
+  # até aqui ele não imprimiu nada... diferente do nosso primeiro exemplo.
+
+  # Vamos enviar um hello! Precisamos do PID do shell iex.
+  send pid, {self, "me, myself and I!"}
+
+  # precisamos receber o resultado
+  receive do
+   {^pid, message} ->
+      IO.puts message # vamos ver o que recebemos ...
+  end
+#+END_SRC
+
+Simples não?
+
+*** Exercícios
+
+1. Crie um módulo PingPong. Ele irá ter uma função que criará um processo e ficará esperando mensagens do método ping. Queremos executar no shell o seguinte código:
+
+  #+BEGIN_SRC elixir
+    pid = PingPong.start # inicia um processo que ficará escutando mensagens de ping
+    result = PingPong.ping pid # irá enviar uma mensagem "ping" para o pid e receberá "pong"
+    IO.puts result # -> "pong"
+  #+END_SRC
+
+2. Usando o mesmo módulo, vamos criar uma função que envia uma mensagem /que não está sendo esperado pelo nosso processo/. Pode ser a mensagem "boom". Se tudo for de acordo com o plano, isso irá /travar/ o shell!!! Saia do shell com CTRL+C CTRL+C.
+
+3. Altere nosso processo que escuta para ter uma cláusula que ignora mensagens desconhecidas.
+
+
+* Estado com processos
+
+Com o que já temos, conseguimos criar APIs assíncronas com pouquíssimo código. No entanto, temos um problema: cada processo só trata UMA mensagem. Nada muito bom, vamos alterar isso:
+
+** Recursão para guardar estado
+
+O problema que tivemos nos nossos exemplos anteriores é que nossa cláusula de receive executava apenas UMA vez. Como fazer para executar mais vezes? Recursão. A maioria das respostas em linguagens funcionais será recursão :D
+
+Vejamos um exemplo:
+
+#+BEGIN_SRC elixir :exports both
+
+# módulo super criativo...
+defmodule OlaMundo do
+
+  def start lista_inicial do
+    # usando spawn/3
+      spawn __MODULE__, :loop, [lista_inicial]
+  end
+
+  def loop lista_de_pessoas do
+    receive do
+      # nas nossas cláusulas de receive, é boa prática colocarmos da mais específica para a menos.
+      # neste caso é só e somente só quando recebermos o atom :terminar
+      :terminar ->
+        IO.puts "Terminando processo. Pessoas na lista: #{inspect lista_de_pessoas}"
+
+      {from, :lista_de_pessoas} ->
+        send from, {self, lista_de_pessoas}
+        # até aqui tudo bem... nada de novo
+        # porém queremos continuar recebendo mensagens. Basta efetuarmos a recursão!
+        loop lista_de_pessoas    
+
+      {from, pessoa} ->
+        send from, {self, "Olá #{pessoa}"}
+        # para guardar o estado, efetuamos a recursão com o NOVO estado que queremos.
+        loop [ pessoa | lista_de_pessoas ]
+
+      # cláusula genérica que apenas loga mensagens que não queremos.
+      _ ->
+        IO.puts "Ignorando mensagem"
+        loop lista_de_pessoas
+    end
+  end
+
+  # aqui encapsulamos aquilo que fazemos no shell para criar uma "api" para o nosso módulo.
+  def ola(pid, pessoa) when is_binary(pessoa) do
+    send pid, {self, pessoa}    
+    receive do
+      # estamos usando esse chapeuzinho antes da variável... por quê? Veja o bloco de atenção abaixo :D
+      {^pid, mensagem} -> IO.puts mensagem
+    after 
+      15000 -> IO.puts "Sem olá para você" # um truque novo! Podemos ter timeouts para não travar o shell.
+    end
+  end
+
+  def pessoas pid do
+    send pid, {self, :lista_de_pessoas}    
+    receive do
+      {^pid, lista} -> Enum.each lista, &(IO.puts "Pessoa: #{&1}") # sintaxe nova !!!
+    after 
+     15000 -> IO.puts "Sem pessoas para você"
+    end
+  end
+
+  def terminar pid do
+    send pid, :terminar # acabou o loop!
+  end
+end
+
+# Iniciando nosso ator
+pid = OlaMundo.start []
+
+# Executando nossas chamadas
+OlaMundo.ola pid, "Fulano"
+OlaMundo.ola pid, "Beltrano"
+OlaMundo.ola pid, "Ciclano"
+
+# Listando todas as pessoas
+OlaMundo.pessoas pid
+# Matando o ator 
+OlaMundo.terminar pid
+
+OlaMundo.ola pid, "Fulano" # timeout!
+#+END_SRC
+
+Esse código é praticamente uma biblioteca de OláMundo distribuído... 
+
+Reparem que estamos guardando estado de forma assíncrona com /recursão/. Vida longa ao Church!
+
+#+BEGIN_QUOTE
+/IMPORTANTE/
+
+Sempre que fizermos uma recursão para guardar estado precisamos GARANTIR que a chamada para a função que faz a recursão é a /ÚLTIMA/.
+
+Isso porque caso contrário teremos problemas com o nosso stack. Vejam um exemplo de chamada que não otimiza a recursão.
+
+def fact(1), do: 1
+def fact(n), do: n * fact(n -1)
+
+Neste caso é preciso fazer uma multiplicação para saber o resultado e, portanto, não há uma recursão otimizada. Para corrigir este caso usamos um acumulador:
+
+def fact(1), do: 1
+def fact(n), do: fact(n, 0)
+
+defp fact(1, acc), do: acc
+defp fact(n, acc), do: fact(n - 1, n * acc)
+
+A diferença é pequena porém muito importante.
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+/Atenção!/
+
+Usamos o circunflexo para garantir que só aceitaremos se o valor for /IDÊNTICO/. Vejam um exemplo:
+
+iex(1)> a = 1
+1
+iex(2)> a = 2
+2
+iex(3)> ^a = 3
+** (MatchError) no match of right hand side value: 3
+
+#+END_QUOTE
+
+** Escondendo nosso protocolo
+
+Vimos que temos que passar o PID sempre para as nossas funções. Porém, há uma forma de evitarmos até mesmo isso. Assim teremos uma verdadeira API que ninguém nem precisa saber que é assíncrona. Para isso, só precisamos passar opções para a criação do processo para que ele fique registrado com um "nome". Fazemos assim:
+
+#+BEGIN_SRC elixir
+pid = spawn Mod, :function, [args]
+Process.register pid, :a_very_beautiful_name
+#+END_SRC
+
+Dessa forma conseguimos passar :a_very_beautiful_name no lugar do pid nas mensagens! Ficamos com APIs como:
+
+#+BEGIN_SRC elixir
+OlaMundo.start []
+OlaMundo.ola "Fulano" # executa em outro processo!
+OlaMundo.pessoas # executa em outro processo!
+OlaMundo.terminar # executa em outro processo!
+#+END_SRC
+
+Para deixar ainda mais bonito, podemos assumir que o parâmetro lista_de_pessoas na função start/0 tenha um valor padrão. Para isso usamos a notação "\\". Vejam um exemplo de definição
+
+#+BEGIN_SRC elixir :exports both
+
+defmodule ValorDefault do
+  def start lista \\ [] do
+    # lista não é mais um parâmetro obrigatório!
+    lista
+  end
+end
+
+IO.puts "#{inspect ValorDefault.start}"
+#+END_SRC
+
+*** Exercícios
+
+1. Refatore nosso OlaMundo para esconder a necessidade do pid e use o valor default da lista vazia na função start.
+2. Crie um módulo Geladeira. Ele deve ter:
+  - Uma função inicia: criará um processo e o registrará como Geladeira. O estado inicial deve ser uma lista vazia.
+  - Uma função guarda_comida que receberá uma comida (uma string) e verificará se já existe ne geladeira. Caso exista devolve uma mensagem "já está na geladeira", caso contrário irá efetuar a recursão guardando a comida na lista.
+  - Uma função pega_comida que verifica se a comida existe. Caso positivo retorna a comida e a remove da lista. Caso negativo retornar mensagem "Não há #{comida}". Para este exercício, verifiquem a documentação da função Enum.member?. 
+  - Uma função terminar que encerra o processo.
+
+* Distribuição
+
+Vimos até agora como criar atores concorrentes que se comunicam com mensagens. Mas a promessa do Erlang é desenvolvimento "distribuído". Será que conseguimos usar nosso módulo de Geladeira para fazer um deploy remoto?
+
+** O módulo Node
+
+Primeiro precisamos ver as ferramentas nativas da plataforma. Abram um shell e vejam as funções do módulo Node. Temos o seguinte:
+
+#+BEGIN_SRC sh
+iex(nascimento@cs)26> Node.
+alive?/0        connect/1       disconnect/1    get_cookie/0    
+list/0          list/1          monitor/2       monitor/3       
+ping/1          self/0          set_cookie/2    spawn/2         
+spawn/3         spawn/4         spawn/5         spawn_link/2    
+spawn_link/4    start/3         stop/0          
+#+END_SRC
+
+A maioria é alto explicativo. Podemos listar, conectar, testar uma conexão com ping e etc tudo entre nós em um cluster. 
+
+Reparem no entanto que o exemplo mostra uma linha de iex diferente. "iex(nascimento@cs)". Qué pasa?
+
+O que há de diferente é que este shell foi iniciado em modo "distribuído". Para isso foi executada a seguinte instrução:
+
+#+BEGIN_SRC sh
+iex --name nascimento@cs
+#+END_SRC
+
+Dessa forma damos um "nome" para o nó o que faz com que o sistema inicie em modo "distribuído". Só com isso já conseguimos fazer um cluster?
+
+Vamos tentar (mas a resposta é não...).
+
+Tentem conectar neste nó usando o seguinte comando no shell:
+
+#+BEGIN_SRC elixir
+Node.ping :"nascimento@cs"
+#+END_SRC
+
+Deve demorar um pouco (depende das partições de rede), mas a resposta será um educado "pang". Do outro lado da conexão aparecerá uma mensagem parecida com "tentativa de conexão de nó desautorizado". 
+
+E como autorizar um nó? O mecanismo de autenticação é simples: há um cookie em cada instalação do erlang. Ao iniciar um nó em modo distribuído podemos verificar qual o valor do nosso cookie com Node.get_cookie/0. Mais do que isso, podemos mudar o valor padrão. Por exemplo:
+
+#+BEGIN_SRC elixir
+Node.set_cookie :qualquer_valor_em_um_atom
+#+END_SRC
+
+Pronto! Se o cookie for igual nos dois nós, a conexão será autorizada.
+
+*** Exercícios
+
+1. Iremos executar nosso módulo Geladeira de forma distribuída. Primeiramente inicie um shell com o parâmetro --name nome@<ip do servidor>. (lembrem qual o diretório que vocês estão iniciando o shell!!!!)
+2. Ajuste o valor do cookie de seu nó para :coders_on_beers
+3. Vamos conectar: execute Node.ping :"nascimento@<ip do servidor>"
+4. Agora, vamos testar funções distribuídas. Criem um módulo em um arquivo ola_mundo_distribuido.ex (no mesmo diretório do shell!!!):
+
+#+BEGIN_SRC elixir
+
+defmodule OlaMundoClient do
+
+  def ola(node, pessoa) when is_binary(pessoa) do
+    send {:ola_mundo, node}, {self, pessoa}    
+    receive do
+      # estamos usando esse chapeuzinho antes da variável... por quê? Veja o bloco de atenção abaixo :D
+      {pid, mensagem} -> IO.puts mensagem
+    after 
+      15000 -> IO.puts "Sem olá para você" # um truque novo! Podemos ter timeouts para não travar o shell.
+    end
+  end
+
+  def pessoas node do
+    send {:ola_mundo, node}, {self, :lista_de_pessoas}    
+    receive do
+      {pid, lista} -> Enum.each lista, &(IO.puts "Pessoa: #{&1}") # sintaxe nova !!!
+    after 
+     15000 -> IO.puts "Sem pessoas para você"
+    end
+  end
+
+end
+
+#+END_SRC
+
+5. Na sua sessão de shell, use a função c para compilar o arquivo. (veja a documentação com "h c").
+6. Executem as funções distribuídas: OlaMundoClient.ola :"nascimento@cs", "<NOME>" e OlaMundoClient.pessoas :"nascimento@cs".
+
