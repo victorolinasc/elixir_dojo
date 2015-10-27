@@ -752,11 +752,11 @@ defmodule DesafioCsTest do
   end
 
   test "com string" do
-    assert "minha string bonita" ~= "bonita"
+    assert "minha string bonita" =~ "bonita"
   end
 
   test "que irá quebrar tudo" do
-    assert "minha string bonita" ~= "sua feia"
+    assert "minha string bonita" =~ "sua feia"
   end
 end
 #+END_SRC

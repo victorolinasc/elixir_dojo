@@ -324,20 +324,20 @@ O resultado será algo como:
 
 <pre class="example">
 iex(7)&gt; String.
-Chars                 at/2                  capitalize/1          
-chunk/2               codepoints/1          contains?/2           
-downcase/1            duplicate/2           ends_with?/2          
-first/1               graphemes/1           last/1                
-length/1              ljust/2               ljust/3               
-lstrip/1              lstrip/2              match?/2              
-next_codepoint/1      next_grapheme/1       printable?/1          
-replace/4             reverse/1             rjust/2               
-rjust/3               rstrip/1              rstrip/2              
-slice/2               slice/3               split/1               
-split/3               split_at/2            starts_with?/2        
-strip/1               strip/2               to_atom/1             
-to_char_list/1        to_existing_atom/1    to_float/1            
-to_integer/1          to_integer/2          upcase/1              
+Chars                 at/2                  capitalize/1
+chunk/2               codepoints/1          contains?/2
+downcase/1            duplicate/2           ends_with?/2
+first/1               graphemes/1           last/1
+length/1              ljust/2               ljust/3
+lstrip/1              lstrip/2              match?/2
+next_codepoint/1      next_grapheme/1       printable?/1
+replace/4             reverse/1             rjust/2
+rjust/3               rstrip/1              rstrip/2
+slice/2               slice/3               split/1
+split/3               split_at/2            starts_with?/2
+strip/1               strip/2               to_atom/1
+to_char_list/1        to_existing_atom/1    to_float/1
+to_integer/1          to_integer/2          upcase/1
 valid?/1              valid_character?/1
 </pre>
 </div>
@@ -356,7 +356,7 @@ O resultado será formatado! Algo como:
 <pre class="example">
 iex(8)&gt; h Enum.filter_map
 
-                   def filter_map(collection, filter, mapper)                   
+                   def filter_map(collection, filter, mapper)
 
 Filters the collection and maps its values in one pass.
 
@@ -614,7 +614,7 @@ Neste exemplo usamos o módulo IO e String da SDK do Elixir. Chamamos funções 
 </p>
 
 <p>
-Antes de começarmos a usar muitas funções, vamos ver como podemos criar uma função. 
+Antes de começarmos a usar muitas funções, vamos ver como podemos criar uma função.
 </p>
 
 <p>
@@ -706,7 +706,7 @@ Podemos utilizar pattern matching para definir funções em Elixir. Vejam alguns
 <pre class="src src-elixir">  <span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">Teste</span> <span style="color: #b4fa70;">do</span>
     <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">diga_ola</span> <span style="color: #e9b96e;">"Elixir"</span> <span style="color: #b4fa70;">do</span>
       <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"Ol&#225; Elixir!"</span>
-    <span style="color: #b4fa70;">end</span> 
+    <span style="color: #b4fa70;">end</span>
     <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">diga_ola</span> <span style="color: #e9b96e;">"Mundo"</span> <span style="color: #b4fa70;">do</span>
       <span style="color: #e9b2e3;">IO</span>.puts <span style="color: #e9b96e;">"N&#227;o..."</span>
     <span style="color: #b4fa70;">end</span>
@@ -756,7 +756,7 @@ Caso não encontre uma implementação, adivinha&#x2026; exception :D. Assim é 
 
 <pre class="src src-elixir"><span style="color: #b4fa70;">defmodule</span> <span style="color: #8cc4ff;">PatternMatchingCasoGenerico</span> <span style="color: #b4fa70;">do</span>
   <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">eh_um_pinguim</span>(<span style="color: #87cefa;">:pinguim</span>), <span style="color: #87cefa;">do:</span> true
-  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">eh_um_pinguim</span>(<span style="color: #e9b2e3;">_</span>), <span style="color: #87cefa;">do:</span> false 
+  <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">eh_um_pinguim</span>(<span style="color: #e9b2e3;">_</span>), <span style="color: #87cefa;">do:</span> false
 <span style="color: #b4fa70;">end</span>
 
 <span style="color: #e9b2e3;">IO</span>.puts PatternMatchingCasoGenerico.eh_um_pinguim <span style="color: #87cefa;">:pinguim</span>
@@ -770,7 +770,7 @@ false
 </pre>
 
 <p>
-Para fazer um "match" genérico utilizamos o underscore '_'. 
+Para fazer um "match" genérico utilizamos o underscore '_'.
 </p>
 
 <blockquote>
@@ -783,7 +783,7 @@ Usamos uma sintaxe encurtada para definir uma função. Quando o retorno cabe em
 </p>
 
 <p>
-def nome() do 
+def nome() do
 &#x2026;
 end
 </p>
@@ -840,8 +840,8 @@ Apenas mais um exemplo para mostrar o poder de pattern matching em funções com
   <span style="color: #b4fa70;">end</span>
 <span style="color: #b4fa70;">end</span>
 
-KeyWordMatch.busca_usuario <span style="color: #87cefa;">name:</span> <span style="color: #e9b96e;">"Joseph Klimber"</span> 
-KeyWordMatch.busca_usuario <span style="color: #87cefa;">email:</span> <span style="color: #e9b96e;">"Joseph.Klimber@pesodepapel.com"</span> 
+KeyWordMatch.busca_usuario <span style="color: #87cefa;">name:</span> <span style="color: #e9b96e;">"Joseph Klimber"</span>
+KeyWordMatch.busca_usuario <span style="color: #87cefa;">email:</span> <span style="color: #e9b96e;">"Joseph.Klimber@pesodepapel.com"</span>
 KeyWordMatch.busca_usuario <span style="color: #87cefa;">idade:</span> 10
 </pre>
 </div>
@@ -873,7 +873,7 @@ No entanto, é uma parte fundamental do Elixir e veremos que não é nenhum bixo
   <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">fib</span>(2), <span style="color: #87cefa;">do:</span> 2
   <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">fib</span>(n) <span style="color: #b4fa70;">when</span> is_integer(n) <span style="color: #b4fa70;">and</span> n &gt; 2 <span style="color: #b4fa70;">do</span>
    fib(n - 1) + fib(n - 2)
-  <span style="color: #b4fa70;">end</span> 
+  <span style="color: #b4fa70;">end</span>
   <span style="color: #b4fa70;">def</span> <span style="color: #fce94f;">fib</span>(<span style="color: #e9b2e3;">_</span>) <span style="color: #b4fa70;">do</span>
      <span style="color: #b4fa70;">raise</span> ArgumentError, <span style="color: #87cefa;">message:</span> <span style="color: #e9b96e;">"N&#250;mero inv&#225;lido"</span>
   <span style="color: #b4fa70;">end</span>
@@ -957,7 +957,7 @@ Mais alguns exemplos de funções recursivas:
 </pre>
 
 <p>
-Agora um exercício para fixar tudo o que fizemos até agora&#x2026; 
+Agora um exercício para fixar tudo o que fizemos até agora&#x2026;
 </p>
 </div>
 </div>
@@ -1151,7 +1151,7 @@ Vemos logo de cara que um projeto em Elixir possui uma estrutura bem definida co
 <h3 id="sec-5-3"><span class="section-number-3">5.3</span> Arquivo mix.exs</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
-Vamos ver o conteúdo padrão do arquivo. 
+Vamos ver o conteúdo padrão do arquivo.
 </p>
 
 <div class="org-src-container">
@@ -1231,7 +1231,7 @@ Sei que ainda não falamos do que se trata nosso desafio, mas vejamos o que há 
 </div>
 
 <p>
-Isso é um pouco irritante para um filósofo, mas vemos que há o teste "da verdade". De novo temos a palavra "use"&#x2026; 
+Isso é um pouco irritante para um filósofo, mas vemos que há o teste "da verdade". De novo temos a palavra "use"&#x2026;
 </p>
 
 <p>
@@ -1264,11 +1264,11 @@ Para criarmos um novo teste basta criar outra chamada para "test". Exemplo:
   <span style="color: #b4fa70;">end</span>
 
   test <span style="color: #e9b96e;">"com string"</span> <span style="color: #b4fa70;">do</span>
-    assert <span style="color: #e9b96e;">"minha string bonita"</span> ~= <span style="color: #e9b96e;">"bonita"</span>
+    assert <span style="color: #e9b96e;">"minha string bonita"</span> =~ <span style="color: #e9b96e;">"bonita"</span>
   <span style="color: #b4fa70;">end</span>
 
   test <span style="color: #e9b96e;">"que ir&#225; quebrar tudo"</span> <span style="color: #b4fa70;">do</span>
-    assert <span style="color: #e9b96e;">"minha string bonita"</span> ~= <span style="color: #e9b96e;">"sua feia"</span>
+    assert <span style="color: #e9b96e;">"minha string bonita"</span> =~ <span style="color: #e9b96e;">"sua feia"</span>
   <span style="color: #b4fa70;">end</span>
 <span style="color: #b4fa70;">end</span>
 </pre>
@@ -1279,7 +1279,7 @@ Neste caso usamos outro operador: =~. Ele verifica se o RHS (right hand side), o
 </p>
 
 <p>
-No primeiro caso "com string" tudo está ok. O RHS está contido no LHS. Porém no caso abaixo irá falhar. Veja que na mensagem de erro ele usa justamente RHS e LHS. 
+No primeiro caso "com string" tudo está ok. O RHS está contido no LHS. Porém no caso abaixo irá falhar. Veja que na mensagem de erro ele usa justamente RHS e LHS.
 </p>
 </div>
 </div>
@@ -1385,7 +1385,7 @@ Ok. Mas como eu faço uma requisição para uma API REST?
 <h3 id="sec-6-2"><span class="section-number-3">6.2</span> Dependências no MIX</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
-Temos um cliente http puro em Erlang que poderíamos tranquilamente usar para fazer nossa chamada. No entanto, para facilitar nosso lado, utilizaremos uma dependência. 
+Temos um cliente http puro em Erlang que poderíamos tranquilamente usar para fazer nossa chamada. No entanto, para facilitar nosso lado, utilizaremos uma dependência.
 </p>
 
 <p>
@@ -1397,7 +1397,7 @@ Já temos milhares de bibliotecas puras em Elixir no gerenciador de pacotes <a h
 </p>
 
 <p>
-Como encontrar uma lib de http? Basta acessar o portal e digitar http na busca. 
+Como encontrar uma lib de http? Basta acessar o portal e digitar http na busca.
 </p>
 
 <p>
